@@ -11,7 +11,7 @@ include perlver.mk
 
 PKG_NAME:=perl
 PKG_VERSION:=$(PERL_VERSION)
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE_URL:=ftp://ftp.cpan.org/pub/CPAN/src/5.0 \
 		http://www.cpan.org/src/5.0 \
