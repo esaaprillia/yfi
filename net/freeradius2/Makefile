@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=freeradius2
 PKG_VERSION:=2.2.9
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=freeradius-server-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=\
@@ -30,6 +30,7 @@ PKG_CONFIG_DEPENDS := \
 
 PKG_CHECK_FORMAT_SECURITY:=0
 include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/feeds/yfi/lang/perl/perlver.mk
 
 define Package/freeradius2/config
   source "$(SOURCE)/Config.in"
@@ -219,6 +220,16 @@ define Package/freeradius2-mod-passwd/conffiles
 /etc/freeradius2/modules/passwd
 endef
 
+define Package/freeradius2-mod-perl
+  $(call Package/freeradius2/Default)
+  DEPENDS:=freeradius2 +perl +perlbase-essential +perlbase-data
+  TITLE:=Perl module
+endef
+
+define Package/freeradius2-mod-perl/conffiles
+/etc/freeradius2/modules/perl
+endef
+
 define Package/freeradius2-mod-ldap
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2 +libopenldap
@@ -371,7 +382,7 @@ CONFIGURE_ARGS+= \
 	--without-rlm_otp \
 	--without-rlm_smsotp \
 	--without-rlm_pam \
-	--without-rlm_perl \
+	--with-rlm_perl \
 	--without-rlm_python \
 	--without-rlm_smb \
 	--with-rlm_sql \
@@ -426,6 +437,18 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-ldap),)
   CONFIGURE_LIBS+= -lcrypto -lssl
 else
   CONFIGURE_ARGS+= --without-rlm_ldap
+endif
+
+ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-perl),)
+  PERL_SITELIB:=/usr/lib/perl$(PERL_MAJOR)/$(PERL_VERSION2)
+  CONFIGURE_ARGS+= \
+		--with-rlm_perl \
+		--with-perl="$(STAGING_DIR_HOSTPKG)/usr/bin/perl$(PERL_VERSION)"
+  CONFIGURE_VARS+= \
+	CFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -I$(STAGING_DIR)$(PERL_SITELIB)/CORE" \
+	LDFLAGS="-Wl,-rpath,$(PERL_SITELIB)/CORE -L$(STAGING_DIR)$(PERL_SITELIB)/CORE"
+else
+  CONFIGURE_ARGS+= --without-rlm_perl
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-sql-mysql),)
@@ -616,6 +639,7 @@ $(eval $(call BuildPlugin,freeradius2-mod-exec,rlm_exec,modules/exec modules/ech
 $(eval $(call BuildPlugin,freeradius2-mod-attr-rewrite,rlm_attr_rewrite,modules/attr_rewrite,modules,))
 $(eval $(call BuildPlugin,freeradius2-mod-files,rlm_files,acct_users preproxy_users users modules/files,modules,))
 $(eval $(call BuildPlugin,freeradius2-mod-passwd,rlm_passwd,modules/passwd,modules,))
+$(eval $(call BuildPlugin,freeradius2-mod-perl,rlm_perl,modules/perl,modules,))
 $(eval $(call BuildPlugin,freeradius2-mod-ldap,rlm_ldap,ldap.attrmap modules/ldap,modules,))
 $(eval $(call BuildPlugin,freeradius2-mod-mschap,rlm_mschap,modules/mschap,modules,))
 $(eval $(call BuildPlugin,freeradius2-mod-pap,rlm_pap,modules/pap,modules,))
