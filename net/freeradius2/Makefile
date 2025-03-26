@@ -59,7 +59,7 @@ endef
 define Package/freeradius2-common
   $(call Package/freeradius2/Default)
   TITLE:=common files
-  DEPENDS:=+libpthread +libltdl +libreadline +FREERADIUS2_OPENSSL:libopenssl
+  DEPENDS:=+libpthread +libreadline +FREERADIUS2_OPENSSL:libopenssl
 endef
 
 define Package/freeradius2-default
@@ -626,8 +626,6 @@ CONFIGURE_ARGS+= \
 	$(if $(CONFIG_FREERADIUS2_OPENSSL),--with-openssl-includes="$(STAGING_DIR)/usr/include",) \
 	$(if $(CONFIG_FREERADIUS2_OPENSSL),--with-openssl-libraries="$(STAGING_DIR)/usr/lib",) \
 	$(if $(CONFIG_FREERADIUS2_OPENSSL),--disable-openssl-version-check,) \
-	--with-system-libtool \
-	--with-system-libltdl \
 	--enable-strict-dependencies \
 	--with-dictdir=/usr/share/freeradius2 \
 	--with-raddbdir=/etc/freeradius2 \
@@ -646,9 +644,8 @@ CONFIGURE_ARGS+= \
 
 PKG_DICTIONARIES:= \
 	compat \
-	freeradius freeradius.internal \
-	rfc2865 rfc2866 rfc2867 rfc2868 rfc2869 rfc2162 rfc2576 rfc2580 \
-	rfc4072 rfc4272 rfc4675 rfc4679 rfc4818 rfc5580 rfc6911 \
+	rfc2865 rfc2866 rfc2867 rfc2868 rfc2869 rfc3162 rfc3576 rfc3580 \
+	rfc4372 rfc4675 rfc4679 \
 	microsoft \
 	wispr \
 
