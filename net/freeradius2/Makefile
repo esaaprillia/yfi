@@ -699,14 +699,14 @@ else
   CONFIGURE_ARGS+= --without-rlm_ippool
 endif
 
-ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-krb5),)
-  CONFIGURE_ARGS+= \
-		--with-rlm_krb5 \
-		--with-rlm_krb5-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-rlm_krb5-lib-dir="$(STAGING_DIR)/usr/lib"
-else
-  CONFIGURE_ARGS+= --without-rlm_krb5
-endif
+#ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-krb5),)
+#  CONFIGURE_ARGS+= \
+#		--with-rlm_krb5 \
+#		--with-rlm_krb5-include-dir="$(STAGING_DIR)/usr/include" \
+#		--with-rlm_krb5-lib-dir="$(STAGING_DIR)/usr/lib"
+#else
+#  CONFIGURE_ARGS+= --without-rlm_krb5
+#endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-ldap),)
   CONFIGURE_ARGS+= --with-rlm_ldap \
@@ -939,3 +939,4 @@ $(eval $(call BuildPlugin,freeradius2-mod-sqlippool,rlm_sqlippool,))
 $(eval $(call BuildPlugin,freeradius2-mod-unix,rlm_unix,))
 $(eval $(call BuildPlugin,freeradius2-mod-wimax,rlm_wimax,))
 $(eval $(call BuildPackage,freeradius2-utils))
+
