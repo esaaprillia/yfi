@@ -59,7 +59,7 @@ endef
 define Package/freeradius2-common
   $(call Package/freeradius2/Default)
   TITLE:=common files
-  DEPENDS:=+libpthread +libreadline +FREERADIUS2_OPENSSL:libopenssl
+  DEPENDS:=+libpthread +libltdl +libreadline +FREERADIUS2_OPENSSL:libopenssl
 endef
 
 define Package/freeradius2-default
@@ -626,6 +626,8 @@ CONFIGURE_ARGS+= \
 	$(if $(CONFIG_FREERADIUS2_OPENSSL),--with-openssl-includes="$(STAGING_DIR)/usr/include",) \
 	$(if $(CONFIG_FREERADIUS2_OPENSSL),--with-openssl-libraries="$(STAGING_DIR)/usr/lib",) \
 	$(if $(CONFIG_FREERADIUS2_OPENSSL),--disable-openssl-version-check,) \
+	--with-system-libtool \
+	--with-system-libltdl \
 	--enable-strict-dependencies \
 	--with-dictdir=/usr/share/freeradius2 \
 	--with-raddbdir=/etc/freeradius2 \
@@ -802,7 +804,7 @@ define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		R="$(PKG_INSTALL_DIR)" \
 		INSTALLSTRIP="" \
-		all certs install
+		all install
 endef
 
 define Package/freeradius2-common/install
@@ -937,4 +939,3 @@ $(eval $(call BuildPlugin,freeradius2-mod-sqlippool,rlm_sqlippool,))
 $(eval $(call BuildPlugin,freeradius2-mod-unix,rlm_unix,))
 $(eval $(call BuildPlugin,freeradius2-mod-wimax,rlm_wimax,))
 $(eval $(call BuildPackage,freeradius2-utils))
-
