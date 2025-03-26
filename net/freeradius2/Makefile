@@ -848,10 +848,10 @@ endef
 define Package/freeradius2-democerts/install
 	$(INSTALL_DIR) $(1)/etc/freeradius2/certs
 	$(CP) \
-		$(PKG_INSTALL_DIR)/etc/freeradius2/certs/ca.pem \
-		$(PKG_INSTALL_DIR)/etc/freeradius2/certs/dh \
-		$(PKG_INSTALL_DIR)/etc/freeradius2/certs/random \
-		$(PKG_INSTALL_DIR)/etc/freeradius2/certs/server.pem \
+		$(PKG_BUILD_DIR)/raddb/certs/ca.pem \
+		$(PKG_BUILD_DIR)/raddb/certs/dh \
+		$(PKG_BUILD_DIR)/raddb/certs/random \
+		$(PKG_BUILD_DIR)/raddb/certs/server.pem \
 		$(1)/etc/freeradius2/certs/
 endef
 
