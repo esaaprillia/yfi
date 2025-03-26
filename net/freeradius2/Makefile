@@ -357,15 +357,15 @@ define Package/freeradius2-mod-ippool/conffiles
 /etc/freeradius2/modules/ippool
 endef
 
-define Package/freeradius2-mod-krb5
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2 +krb5-libs
-  TITLE:=Krb5 module
-endef
+#define Package/freeradius2-mod-krb5
+#  $(call Package/freeradius2/Default)
+#  DEPENDS:=freeradius2 +krb5-libs
+#  TITLE:=Krb5 module
+#endef
 
-define Package/freeradius2-mod-krb5/conffiles
-/etc/freeradius2/modules/krb5
-endef
+#define Package/freeradius2-mod-krb5/conffiles
+#/etc/freeradius2/modules/krb5
+#endef
 
 define Package/freeradius2-mod-ldap
   $(call Package/freeradius2/Default)
@@ -533,7 +533,7 @@ endef
 
 define Package/freeradius2-mod-sql-mysql
   $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-sql +libmysqlclient
+  DEPENDS:=freeradius2-mod-sql +libmysqlclient-r
   TITLE:=Radius MySQL back-end drivers
 endef
 
@@ -910,7 +910,7 @@ $(eval $(call BuildPlugin,freeradius2-mod-expr,rlm_expr,))
 $(eval $(call BuildPlugin,freeradius2-mod-fastusers,rlm_fastusers,))
 $(eval $(call BuildPlugin,freeradius2-mod-files,rlm_files,))
 $(eval $(call BuildPlugin,freeradius2-mod-ippool,rlm_ippool,))
-$(eval $(call BuildPlugin,freeradius2-mod-krb5,rlm_krb5,))
+#$(eval $(call BuildPlugin,freeradius2-mod-krb5,rlm_krb5,))
 $(eval $(call BuildPlugin,freeradius2-mod-ldap,rlm_ldap,))
 $(eval $(call BuildPlugin,freeradius2-mod-linelog,rlm_linelog,))
 $(eval $(call BuildPlugin,freeradius2-mod-logintime,rlm_logintime,))
