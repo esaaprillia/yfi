@@ -21,6 +21,7 @@ PKG_LICENSE_FILES:=COPYRIGHT LICENSE
 PKG_CPE_ID:=cpe:/a:freeradius:freeradius
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/freeradius-server-$(PKG_VERSION)
+PKG_FIXUP:=autoreconf
 
 PKG_CONFIG_DEPENDS := \
   FREERADIUS2_OPENSSL \
