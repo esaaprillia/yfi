@@ -641,7 +641,8 @@ CONFIGURE_ARGS+= \
 	--without-rlm_sql_freetds \
 	--without-rlm_sql_iodbc \
 	--without-rlm_sql_oracle \
-	--without-rlm_sql_sybase
+	--without-rlm_sql_sybase \
+	--without-rlm_krb5
 
 PKG_DICTIONARIES:= \
 	compat \
