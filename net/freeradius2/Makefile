@@ -295,7 +295,7 @@ endef
 
 define Package/freeradius2-mod-sql-mysql
   $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-sql +libmysqlclient-r
+  DEPENDS:=freeradius2-mod-sql +libmysqlclient
   TITLE:=MySQL module
 endef
 
@@ -430,10 +430,7 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-sql-mysql),)
   CONFIGURE_ARGS+= \
-		--with-mysql-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-mysql-lib-dir="$(STAGING_DIR)/usr/lib/mysql"
-  CONFIGURE_LIBS+= -lz
-  CONFIGURE_VARS+= ac_cv_lib_mysqlclient_r_mysql_init=yes
+		--with-mysql-include-dir="$(STAGING_DIR)/usr/include"
 else
   CONFIGURE_ARGS+= --without-rlm_sql_mysql
 endif
