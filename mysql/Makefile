@@ -18,6 +18,7 @@ PKG_HASH:=skip
 
 PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
 PKG_LICENSE:=GPL-2.0
+PKG_LICENSE_FILES:=COPYING
 
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
@@ -31,7 +32,7 @@ define Package/libmysqlclient/Default
   CATEGORY:=Libraries
   DEPENDS:=$(CXX_DEPENDS) +zlib
   TITLE:=MySQL client library
-  URL:=http://dev.mysql.com/
+  URL:=https://dev.mysql.com/
 endef
 
 define Package/mysql-server
@@ -39,7 +40,7 @@ define Package/mysql-server
   CATEGORY:=Utilities
   DEPENDS:=+libmysqlclient +libpthread +libncurses +libreadline
   TITLE:=MySQL Server
-  URL:=http://dev.mysql.com/
+  URL:=https://dev.mysql.com/
   SUBMENU:=database
 endef
 
