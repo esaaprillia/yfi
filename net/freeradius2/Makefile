@@ -763,10 +763,9 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-sql-sqlite),)
   CONFIGURE_ARGS+= \
-	--with-rlm_sql_sqlite \
-	--with-experimental-modules \
-	--with-sqlite-include-dir="$(STAGING_DIR)/usr/include" \
-	--with-sqlite-lib-dir="$(STAGING_DIR)/usr/lib"
+		--with-rlm_sql_sqlite \
+		--with-rlm_sql_sqlite-include-dir="$(STAGING_DIR)/usr/include" \
+		--with-rlm_sql_sqlite-lib-dir="$(STAGING_DIR)/usr/lib"
 else
   CONFIGURE_ARGS+= --without-rlm_sql_sqlite
 endif
