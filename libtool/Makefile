@@ -8,15 +8,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libtool
-PKG_VERSION:=2.4
-PKG_RELEASE:=3
+PKG_VERSION:=2.4.7
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNU/libtool
-PKG_HASH:=afcce660d3dc54c63a0a5ba3cf05272239dc3c54bbeba20f6bad250f9dc007ae
+PKG_HASH:=4f7f217f057ce655ff22559ad221a0fd8ef84ad1fc5fcb6990cecc333aa1635d
 
 PKG_LICENSE:=GPL-2.0+
 PKG_LICENSE_FILES:=COPYING
+PKG_CPE_ID:=cpe:/a:gnu:libtool
 
 PKG_BUILD_PARALLEL:=0
 
@@ -30,18 +31,19 @@ define Package/libltdl
   CATEGORY:=Libraries
   TITLE:=A generic dynamic object loading library
   URL:=http://www.gnu.org/software/libtool/
+  ABI_VERSION:=7
 endef
 
 define Build/InstallDev
 	$(MAKE) -C $(PKG_BUILD_DIR) \
-		bindir="$(2)/bin" \
-		datadir="$(2)/share" \
-		prefix="$(2)" \
-		exec_prefix="$(2)" \
+		bindir="$(2)/libltdl/bin" \
+		datadir="$(2)/libltdl/share" \
+		prefix="$(2)/libltdl" \
+		exec_prefix="$(2)/libltdl" \
 		install
 	$(INSTALL_DIR) $(1)/usr/lib $(1)/usr/include
-	mv $(2)/lib/* $(1)/usr/lib/
-	mv $(2)/include/* $(1)/usr/include/
+	mv $(2)/libltdl/lib/* $(1)/usr/lib/
+	mv $(2)/libltdl/include/* $(1)/usr/include/
 endef
 
 define Package/libltdl/install
