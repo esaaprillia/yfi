@@ -424,6 +424,7 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-ldap),)
 		--with-rlm_ldap-include-dir="$(STAGING_DIR)/usr/include" \
 		--with-rlm_ldap-lib-dir="$(STAGING_DIR)/usr/lib"
   CONFIGURE_LIBS+= -lcrypto -lssl
+  CONFIGURE_VARS+= ac_cv_lib_ldap_r_ldap_init=yes
 else
   CONFIGURE_ARGS+= --without-rlm_ldap
 endif
