@@ -1,22 +1,21 @@
-From 5db47a5188f388def5afb69fb5d110a24f674fa6 Mon Sep 17 00:00:00 2001
+From f8cecfa11d96bed50fbdc9561e8e2a144abee001 Mon Sep 17 00:00:00 2001
 From: esaaprillia <esaapriliasalsabila@gmail.com>
-Date: Fri, 28 Mar 2025 18:59:56 +0800
-Subject: [PATCH] Update eap_tls.h
+Date: Fri, 28 Mar 2025 19:44:57 +0800
+Subject: [PATCH] Update eap_tls.c
 
 ---
- src/modules/rlm_eap/libeap/eap_tls.h | 2 ++
- 1 file changed, 2 insertions(+)
+ src/modules/rlm_eap/libeap/eap_tls.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/src/modules/rlm_eap/libeap/eap_tls.h b/src/modules/rlm_eap/libeap/eap_tls.h
-index 48c2333..0e3e416 100644
---- a/src/modules/rlm_eap/libeap/eap_tls.h
-+++ b/src/modules/rlm_eap/libeap/eap_tls.h
-@@ -51,6 +51,8 @@ RCSIDH(eap_tls_h, "$Id$")
- #include <unistd.h>
- #endif
+diff --git a/src/modules/rlm_eap/libeap/eap_tls.c b/src/modules/rlm_eap/libeap/eap_tls.c
+index 5c47513..1f6529b 100644
+--- a/src/modules/rlm_eap/libeap/eap_tls.c
++++ b/src/modules/rlm_eap/libeap/eap_tls.c
+@@ -43,6 +43,7 @@ RCSID("$Id$")
  
-+#define OPENSSL_USE_DEPRECATED
-+
- #ifndef NO_OPENSSL
+ #include <freeradius-devel/autoconf.h>
+ #include <assert.h>
++#define OPENSSL_USE_DEPRECATED 1
+ #include "eap_tls.h"
+ 
  /*
-  *	For RH 9, which apparently needs this.
