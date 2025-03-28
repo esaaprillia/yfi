@@ -1,0 +1,23 @@
+From 40e08277784ae92927bc0408ce3f2b704cb3a32f Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Fri, 28 Mar 2025 20:47:06 +0800
+Subject: [PATCH] Update eap_tls.h
+
+---
+ src/modules/rlm_eap/libeap/eap_tls.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/modules/rlm_eap/libeap/eap_tls.h b/src/modules/rlm_eap/libeap/eap_tls.h
+index 48c2333..4d6f275 100644
+--- a/src/modules/rlm_eap/libeap/eap_tls.h
++++ b/src/modules/rlm_eap/libeap/eap_tls.h
+@@ -55,6 +55,9 @@ RCSIDH(eap_tls_h, "$Id$")
+ /*
+  *	For RH 9, which apparently needs this.
+  */
++#ifndef OPENSSL_USE_DEPRECATED
++#define OPENSSL_USE_DEPRECATED
++#endif
+ #ifndef OPENSSL_NO_KRB5
+ #define OPENSSL_NO_KRB5
+ #endif
