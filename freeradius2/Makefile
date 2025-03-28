@@ -22,7 +22,7 @@ PKG_LICENSE_FILES:=COPYRIGHT LICENSE
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/freeradius-server-$(PKG_VERSION)
 PKG_FIXUP:=autoreconf
-PKG_REMOVE_FILES:=aclocal.m4 libtool.m4
+PKG_REMOVE_FILES:=aclocal.m4 libtool.m4 libltdl/aclocal.m4
 PKG_CHECK_FORMAT_SECURITY:=0
 
 PKG_CONFIG_DEPENDS := \
