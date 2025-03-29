@@ -340,7 +340,7 @@ define Package/freeradius2-mod-sqllog
   TITLE:=SQL Logging module
 endef
 
-EXTRA_CFLAGS+= -DHAVE_OPENSSL_ENGINE_H
+EXTRA_CFLAGS+= -DHAVE_OPENSSL_RAND_H
 
 CONFIGURE_ARGS+= \
 	--libdir=/usr/lib/freeradius2 \
