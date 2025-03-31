@@ -341,7 +341,7 @@ define Package/freeradius2-mod-sqllog
   TITLE:=SQL Logging module
 endef
 
-TARGET_CFLAGS += -Wno-error
+TARGET_CFLAGS += -Wno-unused-local-typedefs
 
 CONFIGURE_ARGS+= \
 	--libdir=/usr/lib/freeradius2 \
