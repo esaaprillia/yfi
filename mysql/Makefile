@@ -33,6 +33,7 @@ define Package/libmysqlclient/Default
   DEPENDS:=$(CXX_DEPENDS) +zlib
   TITLE:=MySQL client library
   URL:=https://dev.mysql.com/
+  CONFLICTS:=mariadb libmariadb
 endef
 
 define Package/mysql-server
