@@ -798,12 +798,12 @@ CONFIGURE_VARS+= \
 	LIBS="$(CONFIGURE_LIBS)" \
 	MYSQL_CONFIG="no" \
 	ac_cv_lib_readline=no \
-	LIBTOOL="$(STAGING_DIR)/host/libltdl/bin/libtool"
 
 define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		R="$(PKG_INSTALL_DIR)" \
 		INSTALLSTRIP="" \
+		LIBTOOL:="$(STAGING_DIR)/host/libltdl/bin/libtool" \
 		all certs install
 endef
 
