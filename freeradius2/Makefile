@@ -803,7 +803,7 @@ define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		R="$(PKG_INSTALL_DIR)" \
 		INSTALLSTRIP="" \
-		LIBTOOL:="$(STAGING_DIR)/host/libltdl/bin/libtool" \
+		LIBTOOL="$(STAGING_DIR)/host/libltdl/bin/libtool" \
 		all certs install
 endef
 
