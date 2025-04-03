@@ -38,8 +38,8 @@ define Package/libgdbm/description
 endef
 
 CONFIGURE_ARGS += \
-	--enable-shared \
-	--enable-static
+	--enable-libgdbm-compat \
+	--enable-shared
 
 define Build/Compile
 	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \
@@ -51,14 +51,16 @@ endef
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
-	$(CP) $(PKG_INSTALL_DIR)/usr/include/gdbm.h $(1)/usr/include/
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/{gdbm,ndbm}.h $(1)/usr/include/
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgdbm.{a,so*} $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgdbm.so* $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgdbm_compat.so* $(1)/usr/lib/
 endef
 
 define Package/libgdbm/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgdbm.so.* $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgdbm_compat.so* $(1)/usr/lib/
 endef
 
 $(eval $(call BuildPackage,libgdbm))
