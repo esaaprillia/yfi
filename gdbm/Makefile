@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Marcel Denia <naoir@gmx.net>
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=COPYING
 
-PKG_INSTALL:=2
+PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=0
 
 include $(INCLUDE_DIR)/package.mk
