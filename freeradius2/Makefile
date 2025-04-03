@@ -798,7 +798,7 @@ CONFIGURE_VARS+= \
 	LIBS="$(CONFIGURE_LIBS)" \
 	MYSQL_CONFIG="no" \
 	ac_cv_lib_readline=no \
-	LIBTOOL:="$(STAGING_DIR)/host/libltdl/bin/libtool"
+	LIBTOOL="$(STAGING_DIR)/host/libltdl/bin/libtool"
 
 define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
