@@ -28,7 +28,7 @@ PKG_CONFIG_DEPENDS := \
   FREERADIUS2_NOSSL
 
 include $(INCLUDE_DIR)/package.mk
-include $(TOPDIR)/feeds/yfi/lang/perl/perlver.mk
+include $(TOPDIR)/feeds/packages/lang/perl/perlver.mk
 
 define Package/freeradius2/config
   source "$(SOURCE)/Config.in"
