@@ -1,29 +1,24 @@
-From fc673244c03b72123b0f2e6ee9c75257a0ae2ddc Mon Sep 17 00:00:00 2001
-From: Predators <31931530+predators46@users.noreply.github.com>
-Date: Fri, 17 Dec 2021 06:28:32 +0800
+From 21b673f23cea4a33f77c27282511332b9ee8969d Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Fri, 4 Apr 2025 16:30:30 +0800
 Subject: [PATCH] Update mppe_keys.c
 
 ---
- src/modules/rlm_eap/libeap/mppe_keys.c | 58 +++++++++-----------------
- 1 file changed, 20 insertions(+), 38 deletions(-)
+ src/modules/rlm_eap/libeap/mppe_keys.c | 57 ++++++++++----------------
+ 1 file changed, 21 insertions(+), 36 deletions(-)
 
 diff --git a/src/modules/rlm_eap/libeap/mppe_keys.c b/src/modules/rlm_eap/libeap/mppe_keys.c
-index ea8f024..42f9d4c 100644
+index 3b3b9aa..0856af2 100644
 --- a/src/modules/rlm_eap/libeap/mppe_keys.c
 +++ b/src/modules/rlm_eap/libeap/mppe_keys.c
-@@ -56,51 +56,51 @@ static void P_hash(const EVP_MD *evp_md,
- 		   const unsigned char *seed,   unsigned int seed_len,
- 		   unsigned char *out, unsigned int out_len)
- {
--	HMAC_CTX ctx_a, ctx_out;
-+	HMAC_CTX *ctx_a, *ctx_out;
+@@ -60,47 +60,47 @@ static void P_hash(const EVP_MD *evp_md,
  	unsigned char a[HMAC_MAX_MD_CBLOCK];
  	unsigned int size;
  
 -	HMAC_CTX_init(&ctx_a);
 -	HMAC_CTX_init(&ctx_out);
-+	ctx_a = HMAC_CTX_new();
-+	ctx_out = HMAC_CTX_new();
++	HMAC_CTX_init(ctx_a);
++	HMAC_CTX_init(ctx_out);
  #ifdef EVP_MD_CTX_FLAG_NON_FIPS_ALLOW
 -	HMAC_CTX_set_flags(&ctx_a, EVP_MD_CTX_FLAG_NON_FIPS_ALLOW);
 -	HMAC_CTX_set_flags(&ctx_out, EVP_MD_CTX_FLAG_NON_FIPS_ALLOW);
@@ -78,8 +73,8 @@ index ea8f024..42f9d4c 100644
  
 -	HMAC_CTX_cleanup(&ctx_a);
 -	HMAC_CTX_cleanup(&ctx_out);
-+	HMAC_CTX_free(ctx_a);
-+	HMAC_CTX_free(ctx_out);
++	HMAC_CTX_cleanup(ctx_a);
++	HMAC_CTX_cleanup(ctx_out);
  	memset(a, 0, sizeof(a));
  }
  
@@ -107,7 +102,7 @@ index ea8f024..42f9d4c 100644
  #if OPENSSL_VERSION_NUMBER >= 0x10001000L
  	SSL_export_keying_material(s, buffer, size, EAPTLS_PRF_CHALLENGE,
  				   sizeof(EAPTLS_PRF_CHALLENGE) - 1, NULL, 0, 0);
-@@ -224,18 +214,10 @@ void eaptls_gen_eap_key(SSL *s, uint32_t header, VALUE_PAIR **vps)
+@@ -224,18 +214,13 @@ void eaptls_gen_eap_key(SSL *s, uint32_t header, VALUE_PAIR **vps)
  {
  	VALUE_PAIR *vp;
  
@@ -121,8 +116,10 @@ index ea8f024..42f9d4c 100644
  
  	vp->vp_octets[0] = header & 0xff;
 -	memcpy(vp->vp_octets + 1, s->s3->client_random, SSL3_RANDOM_SIZE);
--	memcpy(vp->vp_octets + 1 + SSL3_RANDOM_SIZE,
++	memcpy(vp->vp_octets + 1, s->s3->SSL_get_client_random, SSL3_RANDOM_SIZE);
+ 	memcpy(vp->vp_octets + 1 + SSL3_RANDOM_SIZE,
 -	       s->s3->server_random, SSL3_RANDOM_SIZE);
++	       s->s3->SSL_get_server_random, SSL3_RANDOM_SIZE);
  	vp->length = 1 + 2 * SSL3_RANDOM_SIZE;
  	pairadd(vps, vp);
  }
