@@ -80,8 +80,7 @@ CONFIGURE_ARGS += \
 	--without-docs \
 	--without-man \
 	--without-readline \
-	--without-debug \
-	--with-named-thread-libs=-lpthread
+	--without-debug
 
 CONFIGURE_VARS += \
 	mysql_cv_compress=yes \
