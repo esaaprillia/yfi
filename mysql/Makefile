@@ -64,7 +64,7 @@ endif
 
 CONFIGURE_ARGS += \
 	--enable-shared \
-	--disable-static \
+	--enable-static \
 	--enable-thread-safe-client \
 	--disable-assembler \
 	--with-pthread \
@@ -80,7 +80,8 @@ CONFIGURE_ARGS += \
 	--without-docs \
 	--without-man \
 	--without-readline \
-	--without-debug
+	--without-debug \
+	--with-named-thread-libs=-lpthread
 
 CONFIGURE_VARS += \
 	mysql_cv_compress=yes \
