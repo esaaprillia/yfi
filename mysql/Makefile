@@ -43,6 +43,7 @@ define Package/mysql-server
   TITLE:=MySQL Server
   URL:=https://dev.mysql.com/
   SUBMENU:=database
+  CONFLICTS:=mariadb libmariadbclient
 endef
 
 define Package/libmysqlclient
