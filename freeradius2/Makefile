@@ -532,6 +532,12 @@ define Package/freeradius2-mod-replicate/conffiles
 /etc/freeradius2/modules/replicate
 endef
 
+define Package/freeradius2-mod-ruby
+  $(call Package/freeradius2/Default)
+  DEPENDS:=freeradius2 +libruby
+  TITLE:=Ruby module
+endef
+
 define Package/freeradius2-mod-soh
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2
@@ -778,6 +784,14 @@ else
   CONFIGURE_ARGS+= --without-rlm_rediswho
 endif
 
+ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-ruby),)
+  CONFIGURE_ARGS+= \
+		--with-modules="rlm_ruby" \
+		--with-rlm-ruby-bin="$(STAGING_DIR_HOSTPKG)/bin/ruby"
+else
+  CONFIGURE_ARGS+= --without-rlm_ruby
+endif
+
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-sql),)
   CONFIGURE_ARGS+= --with-rlm_sql
 else
@@ -968,6 +982,7 @@ $(eval $(call BuildPlugin,freeradius2-mod-realm,rlm_realm,))
 $(eval $(call BuildPlugin,freeradius2-mod-redis,rlm_redis,))
 $(eval $(call BuildPlugin,freeradius2-mod-rediswho,rlm_rediswho,))
 $(eval $(call BuildPlugin,freeradius2-mod-replicate,rlm_replicate,))
+$(eval $(call BuildPlugin,freeradius2-mod-ruby,rlm_ruby,))
 $(eval $(call BuildPlugin,freeradius2-mod-soh,rlm_soh,))
 $(eval $(call BuildPlugin,freeradius2-mod-sql,rlm_sql,))
 $(eval $(call BuildPlugin,freeradius2-mod-sql-mysql,rlm_sql_mysql,))
