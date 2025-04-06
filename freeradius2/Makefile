@@ -761,7 +761,7 @@ else
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-sql-sqlite),)
-  CONFIGURE_ARGS+= --with-rlm_sql_sqlite
+  CONFIGURE_ARGS+= --with-rlm_sql_sqlite --with-experimental-modules
 else
   CONFIGURE_ARGS+= --without-rlm_sql_sqlite
 endif
