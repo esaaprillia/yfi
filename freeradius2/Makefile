@@ -635,6 +635,7 @@ CONFIGURE_ARGS+= \
 	--with-logdir=/var/log \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
+	--without-rlm_opendirectory \
 	--without-rlm_python \
 	--without-rlm_sql_db2 \
 	--without-rlm_sql_firebird \
