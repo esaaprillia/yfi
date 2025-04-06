@@ -812,7 +812,7 @@ define Package/freeradius2-common/install
 	chmod 771 $(1)/etc/freeradius2
 	$(CP) $(PKG_INSTALL_DIR)/etc/freeradius2/dictionary $(1)/etc/freeradius2/ ; \
 	$(INSTALL_DIR) $(1)/usr/lib/freeradius2
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/libfreeradius-{dhcp,eap,radius,server}.so $(1)/usr/lib/freeradius2
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/libfreeradius-{eap*,radius*}.so $(1)/usr/lib/freeradius2
 	$(INSTALL_DIR) $(1)/usr/share/freeradius2
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/freeradius2/dictionary $(1)/usr/share/freeradius2/
 	$(SED) "s,^\(\$$$$INCLUDE\),#\1,g" $(1)/usr/share/freeradius2/dictionary
