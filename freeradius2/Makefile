@@ -786,7 +786,7 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-ruby),)
   CONFIGURE_ARGS+= \
-		--with-modules="rlm_ruby" \
+		--with-rlm_ruby \
 		--with-rlm-ruby-bin="$(STAGING_DIR_HOSTPKG)/bin/ruby"
 else
   CONFIGURE_ARGS+= --without-rlm_ruby
