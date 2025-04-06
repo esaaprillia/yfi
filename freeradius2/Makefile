@@ -502,6 +502,26 @@ define Package/freeradius2-mod-realm/conffiles
 /etc/freeradius2/modules/realm
 endef
 
+define Package/freeradius2-mod-redis
+  $(call Package/freeradius2/Default)
+  DEPENDS:=freeradius2 +libhiredis
+  TITLE:=Redis module
+endef
+
+define Package/freeradius2-mod-redis/conffiles
+/etc/freeradius2/modules/redis
+endef
+
+define Package/freeradius2-mod-rediswho
+  $(call Package/freeradius2/Default)
+  DEPENDS:=freeradius2 freeradius2-mod-redis
+  TITLE:=Rediswho module
+endef
+
+define Package/freeradius2-mod-rediswho/conffiles
+/etc/freeradius2/modules/rediswho
+endef
+
 define Package/freeradius2-mod-replicate
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2
@@ -740,6 +760,24 @@ else
   CONFIGURE_ARGS+= --without-rlm_radutmp
 endif
 
+ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-redis),)
+  CONFIGURE_ARGS+= \
+		--with-rlm_redis \
+		--with-rlm_redis-include-dir="$(STAGING_DIR)/usr/include" \
+		--with-rlm_redis-lib-dir="$(STAGING_DIR)/usr/lib"
+else
+  CONFIGURE_ARGS+= --without-rlm_redis
+endif
+
+ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-rediswho),)
+  CONFIGURE_ARGS+= \
+		--with-rlm_rediswho \
+		--with-rlm_rediswho-include-dir="$(STAGING_DIR)/usr/include" \
+		--with-rlm_rediswho-lib-dir="$(STAGING_DIR)/usr/lib"
+else
+  CONFIGURE_ARGS+= --without-rlm_rediswho
+endif
+
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-sql),)
   CONFIGURE_ARGS+= --with-rlm_sql
 else
@@ -927,6 +965,8 @@ $(eval $(call BuildPlugin,freeradius2-mod-policy,rlm_policy,))
 $(eval $(call BuildPlugin,freeradius2-mod-preprocess,rlm_preprocess,))
 $(eval $(call BuildPlugin,freeradius2-mod-radutmp,rlm_radutmp,))
 $(eval $(call BuildPlugin,freeradius2-mod-realm,rlm_realm,))
+$(eval $(call BuildPlugin,freeradius2-mod-redis,rlm_redis,))
+$(eval $(call BuildPlugin,freeradius2-mod-rediswho,rlm_rediswho,))
 $(eval $(call BuildPlugin,freeradius2-mod-replicate,rlm_replicate,))
 $(eval $(call BuildPlugin,freeradius2-mod-soh,rlm_soh,))
 $(eval $(call BuildPlugin,freeradius2-mod-sql,rlm_sql,))
