@@ -804,7 +804,7 @@ define Build/Compile
 		R="$(PKG_INSTALL_DIR)" \
 		INSTALLSTRIP="" \
 		LIBTOOL="$(STAGING_DIR)/host/libltdl/bin/libtool" \
-		all install
+		all certs install
 endef
 
 define Package/freeradius2-common/install
