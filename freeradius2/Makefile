@@ -649,7 +649,7 @@ PKG_DICTIONARIES:= \
 	rfc2865 rfc2866 rfc2867 rfc2868 rfc2869 rfc3162 rfc3576 rfc3580 \
 	rfc4372 rfc4675 rfc4679 \
 	microsoft \
-	wispr \
+	wispr
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-dbm),)
   CONFIGURE_ARGS+= \
@@ -797,7 +797,7 @@ CONFIGURE_VARS+= \
 	LDFLAGS="$$$$LDFLAGS" \
 	LIBS="$(CONFIGURE_LIBS)" \
 	MYSQL_CONFIG="no" \
-	ac_cv_lib_readline=no \
+	ac_cv_lib_readline=no
 
 define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
@@ -812,7 +812,7 @@ define Package/freeradius2-common/install
 	chmod 771 $(1)/etc/freeradius2
 	$(CP) $(PKG_INSTALL_DIR)/etc/freeradius2/dictionary $(1)/etc/freeradius2/ ; \
 	$(INSTALL_DIR) $(1)/usr/lib/freeradius2
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/libfreeradius-{eap*,radius*}.so $(1)/usr/lib/freeradius2
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/libfreeradius-{eap*,radius*}.so $(1)/usr/lib/freeradius2/
 	$(INSTALL_DIR) $(1)/usr/share/freeradius2
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/freeradius2/dictionary $(1)/usr/share/freeradius2/
 	$(SED) "s,^\(\$$$$INCLUDE\),#\1,g" $(1)/usr/share/freeradius2/dictionary
