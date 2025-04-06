@@ -655,6 +655,7 @@ CONFIGURE_ARGS+= \
 	--with-logdir=/var/log \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
+	--without-rlm_example \
 	--without-rlm_opendirectory \
 	--without-rlm_python \
 	--without-rlm_ruby \
