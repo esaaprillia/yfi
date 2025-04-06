@@ -908,7 +908,7 @@ define BuildPlugin
   define Package/$(1)/install
 	[ -z "$(2)" ] || $(INSTALL_DIR) $$(1)/usr/lib/freeradius2
 	for m in $(2); do \
-		$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/$$$$$$$${m}.so $$(1)/usr/lib/freeradius2 ; \
+		$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/$$$$$$$${m}*.so $$(1)/usr/lib/freeradius2 ; \
 	done
 	# Install configuration files
 	for f in $(strip $(call Package/$(1)/conffiles)); do \
