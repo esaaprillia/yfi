@@ -41,7 +41,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_apache-mod-webdav \
 	CONFIG_PACKAGE_apache-suexec
 
-PKG_FIXUP:=autoreconf
+#PKG_FIXUP:=autoreconf
 
 PKG_INSTALL:=1
 
@@ -370,12 +370,12 @@ $(eval $(call BuildPackage,apache-suexec))
 $(eval $(call BuildPackage,apache-utils))
 $(eval $(call Package/apache/Module,deflate,Deflate,Deflate support for the Apache HTTP server.,+zlib,deflate))
 $(eval $(call Package/apache/Module,http2,HTTP2,HTTP/2 transport layer for the Apache HTTP Server.,+libnghttp2 +libopenssl,http2))
-$(eval $(call Package/apache/Module,ldap,LDAP,LDAP authentication/authorization module for the Apache HTTP Server.,+libaprutil-ldap,authnz_ldap ldap))
+#$(eval $(call Package/apache/Module,ldap,LDAP,LDAP authentication/authorization module for the Apache HTTP Server.,+libaprutil-ldap,authnz_ldap ldap))
 $(eval $(call Package/apache/Module,lua,Lua,Lua support for the Apache HTTP server.,+liblua,lua))
 $(eval $(call Package/apache/Module,md,Managed Domain handling,Managed Domain handling.,+libcurl +jansson +libopenssl,md))
 $(eval $(call Package/apache/Module,proxy,Proxy,Proxy modules for the Apache HTTP Server.,,proxy proxy_ajp proxy_balancer proxy_connect proxy_express proxy_fcgi proxy_fdpass proxy_ftp proxy_hcheck proxy_http proxy_scgi proxy_uwsgi proxy_wstunnel lbmethod_byrequests lbmethod_heartbeat lbmethod_bytraffic lbmethod_bybusyness))
 $(eval $(call Package/apache/Module,proxy-html,Proxy HTML,HTML and XML content filters for the Apache HTTP Server.,+apache-mod-proxy +libxml2,proxy_html xml2enc))
-$(eval $(call Package/apache/Module,session-crypto,Session crypto,Session encryption support for the Apache HTTP Server.,+libaprutil-crypto-openssl,session_crypto))
+#$(eval $(call Package/apache/Module,session-crypto,Session crypto,Session encryption support for the Apache HTTP Server.,+libaprutil-crypto-openssl,session_crypto))
 $(eval $(call Package/apache/Module,ssl,SSL/TLS,SSL/TLS module for the Apache HTTP Server.,+libopenssl,ssl))
 $(eval $(call Package/apache/Module,suexec,suEXEC,suEXEC module for the Apache HTTP Server.,+apache-suexec,suexec))
 $(eval $(call Package/apache/Module,webdav,WebDAV,WebDAV support for the Apache HTTP Server.,,dav dav_fs dav_lock))
