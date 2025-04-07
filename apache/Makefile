@@ -55,7 +55,7 @@ endef
 
 define Package/apache
 $(call Package/apache/Default)
-  DEPENDS:=+libapr +libaprutil +libpcre +libopenssl +unixodbc +zlib +APACHE_HTTP2:libnghttp2
+  DEPENDS:=+libapr +libaprutil +libpcre +libopenssl +unixodbc +libxml2 +zlib +APACHE_HTTP2:libnghttp2
 endef
 
 define Package/apache/description
@@ -118,6 +118,7 @@ define Build/Configure
 		--with-crypto \
 		--with-sqlit3="$(STAGING_DIR)/usr" \
 		--with-openssl="$(STAGING_DIR)/usr" \
+		--with-libxml2="$(STAGING_DIR)/usr" \
 		--enable-cgi \
 		--enable-cgid \
 		--enable-ssl \
