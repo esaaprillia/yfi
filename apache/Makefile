@@ -41,7 +41,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_apache-mod-webdav \
 	CONFIG_PACKAGE_apache-suexec
 
-#PKG_FIXUP:=autoreconf
+PKG_FIXUP:=autoreconf
 
 PKG_INSTALL:=1
 
@@ -191,7 +191,6 @@ CONFIGURE_ARGS+= \
 	--enable-disk-cache \
 	--enable-exception-hook \
 	--enable-file-cache \
-	--enable-layout=OpenWrt \
 	--enable-mem-cache \
 	--enable-mods-shared=all \
 	--enable-mpms-shared=all \
