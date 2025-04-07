@@ -113,18 +113,26 @@ define Build/Configure
 		--with-apr-util="$(STAGING_DIR)/usr/bin/apu-1-config" \
 		--with-pcre="$(STAGING_DIR)/usr/bin/pcre-config" \
 		$(ADDITIONAL_MODULES) \
+		--datadir=/usr/share/apache \
 		--enable-http \
 		--with-crypto \
 		--with-sqlit3="$(STAGING_DIR)/usr" \
 		--with-openssl="$(STAGING_DIR)/usr" \
+		--enable-cgi \
+		--enable-cgid \
 		--enable-ssl \
 		--enable-proxy \
 		--disable-disk-cache \
 		--enable-maintainer-mode \
+		--enable-mods-shared=all \
+		--enable-mpms-shared=all \
+		--enable-so \
+		--enable-deflate \
 		--with-mpm=prefork \
 		--with-mpm=worker \
 		--enable-mime-magic \
 		--without-suexec-bin \
+		--libexecdir=/usr/lib/apache \
 		--sysconfdir=/etc/apache \
 		ap_cv_void_ptr_lt_long=no \
 		logfiledir="/var/log" \
@@ -165,10 +173,10 @@ define Package/apache/install
 	# we don't need apxs on the router, it's just for building apache modules.
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/{ab,dbmmanage,htdbm,htdigest,htpasswd,httxt2dbm,logresolve} $(1)/usr/sbin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/{apachectl,checkgid,envvars,envvars-std,htcacheclean,httpd,rotatelogs} $(1)/usr/sbin/
-	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/httpd.exp $(1)/usr/lib/
-	$(INSTALL_DIR) $(1)/usr/share
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/{error,htdocs,cgi-bin,build} $(1)/usr/share/
+	$(INSTALL_DIR) $(1)/usr/lib/apache
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/apache/*.so $(1)/usr/lib/apache/
+	$(INSTALL_DIR) $(1)/usr/share/apache
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/apache/{htdocs,cgi-bin} $(1)/usr/share/apache/
 	$(INSTALL_DIR) $(1)/etc/apache
 	$(CP) $(PKG_INSTALL_DIR)/etc/apache/{httpd.conf,magic,mime.types,extra} $(1)/etc/apache/
 endef
