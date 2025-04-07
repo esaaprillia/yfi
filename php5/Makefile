@@ -512,7 +512,7 @@ endef
 
 define Package/apache-mod-php5/install
 	$(INSTALL_DIR) $(1)/usr/lib/apache2
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libs/libphp.so $(1)/usr/lib/apache2
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libs/libphp5.so $(1)/usr/lib/apache2
 endef
 
 define Build/Prepare
