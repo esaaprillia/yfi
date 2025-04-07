@@ -37,7 +37,6 @@ TARGET_CPPFLAGS += -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE
 
 CONFIGURE_ARGS += \
 	--with-devrandom=/dev/urandom \
-	--disable-dso \
 	$(call autoconf_bool,CONFIG_IPV6,ipv6)
 
 # XXX: ac_cv_sizeof_struct_iovec=1 is just to trick configure
