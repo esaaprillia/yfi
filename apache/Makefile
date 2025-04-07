@@ -106,6 +106,7 @@ endef
 TARGET_CFLAGS += $(FPIC)
 TARGET_CPPFLAGS += -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE
 TARGET_LDFLAGS += -lpthread
+EXTRA_CFLAGS+= -DBIG_SECURITY_HOLE
 
 define Build/Configure
 	$(call Build/Configure/Default, \
