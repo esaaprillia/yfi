@@ -292,6 +292,8 @@ define Build/InstallDev
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/apache2/build/* \
 				$(1)/usr/share/apache2/build
 	$(SED) 's%"/usr/bin"%"$(STAGING_DIR)/usr/bin"%' $(1)/usr/bin/apxs
+	$(SED) 's%"/usr/bin/apr-1-config"%"$(STAGING_DIR)/usr/bin/apr-1-config"%' $(1)/usr/bin/apxs
+	$(SED) 's%"/usr/bin/apu-1-config"%"$(STAGING_DIR)/usr/bin/apu-1-config"%' $(1)/usr/bin/apxs
 	$(SED) 's%/usr/share/apache2/build%$(STAGING_DIR)/usr/share/apache2/build%' \
 		$(1)/usr/bin/apxs
 	$(SED) 's%^prefix =.*%prefix = $(STAGING_DIR)/usr%' \
