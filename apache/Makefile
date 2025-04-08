@@ -195,7 +195,7 @@ CONFIGURE_ARGS+= \
 	--enable-mods-shared=all \
 	--enable-mpms-shared=all \
 	--enable-so \
-	--includedir="/usr/include/apache2" \
+	--includedir=/usr/include/apache2 \
 	--libexecdir=/usr/lib/apache2 \
 	--sysconfdir=/etc/apache2 \
 	--with-apr-util="$(STAGING_DIR)/usr/bin/apu-1-config" \
