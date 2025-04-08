@@ -239,7 +239,7 @@ ifneq ($(CONFIG_PACKAGE_apache-mod-proxy-html),)
 CONFIGURE_ARGS+= \
 	--enable-proxy-html \
 	--enable-xml2enc \
-	--with-libxml2="$(STAGING_DIR)/host/bin/xml2-config"
+	--with-libxml2="$(STAGING_DIR)/usr/lib"
 else
 CONFIGURE_ARGS+= \
 	--disable-proxy-html \
