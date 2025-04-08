@@ -41,7 +41,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_apache-mod-webdav \
 	CONFIG_PACKAGE_apache-suexec
 
-PKG_FIXUP:=autoreconf
+#PKG_FIXUP:=autoreconf
 
 PKG_INSTALL:=1
 
@@ -199,7 +199,6 @@ CONFIGURE_ARGS+= \
 	--sysconfdir=/etc/apache2 \
 	--with-apr-util="$(STAGING_DIR)/usr/bin/apu-1-config" \
 	--with-apr="$(STAGING_DIR)/usr/bin/apr-1-config" \
-	--with-libxml2="$(STAGING_DIR)/usr" \
 	--with-mpm=prefork \
 	--with-pcre="$(STAGING_DIR)/usr/bin/pcre-config" \
 	--with-program-name=apache2 \
@@ -239,7 +238,8 @@ endif
 ifneq ($(CONFIG_PACKAGE_apache-mod-proxy-html),)
 CONFIGURE_ARGS+= \
 	--enable-proxy-html \
-	--enable-xml2enc
+	--enable-xml2enc \
+	--with-libxml2="$(STAGING_DIR)/usr"
 else
 CONFIGURE_ARGS+= \
 	--disable-proxy-html \
