@@ -195,7 +195,7 @@ CONFIGURE_ARGS+= \
 	--enable-mods-shared=all \
 	--enable-mpms-shared=all \
 	--enable-so \
-	--includedir=/usr/include/apache2 \
+	--includedir="/usr/include/apache2" \
 	--libexecdir=/usr/lib/apache2 \
 	--sysconfdir=/etc/apache2 \
 	--with-apr-util="$(STAGING_DIR)/usr/bin/apu-1-config" \
@@ -232,6 +232,17 @@ CONFIGURE_ARGS+= \
 else
 CONFIGURE_ARGS+= \
 	--disable-lua
+endif
+
+ifneq ($(CONFIG_PACKAGE_apache-mod-md),)
+CONFIGURE_ARGS+= \
+	--enable-md \
+	--with-curl="$(STAGING_DIR)/usr" \
+	--with-jansson="$(STAGING_DIR)/usr" \
+	--with-ssl="$(STAGING_DIR)/usr"
+else
+CONFIGURE_ARGS+= \
+	--disable-md
 endif
 
 ifneq ($(CONFIG_PACKAGE_apache-mod-proxy),)
