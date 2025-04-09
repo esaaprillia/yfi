@@ -339,16 +339,6 @@ define Package/freeradius2-mod-mschap/conffiles
 /etc/freeradius2/modules/mschap
 endef
 
-define Package/freeradius2-mod-otp
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2
-  TITLE:=Otp module
-endef
-
-define Package/freeradius2-mod-otp/conffiles
-/etc/freeradius2/modules/otp
-endef
-
 define Package/freeradius2-mod-pam
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2 +libpam
@@ -597,6 +587,7 @@ CONFIGURE_ARGS+= \
 	--without-rlm_eap_tnc \
 	--without-rlm_example \
 	--without-rlm_opendirectory \
+	--without-rlm_otp \
 	--without-rlm_python \
 	--without-rlm_ruby \
 	--without-rlm_smb \
@@ -860,7 +851,6 @@ $(eval $(call BuildPlugin,freeradius2-mod-ldap,rlm_ldap,))
 $(eval $(call BuildPlugin,freeradius2-mod-linelog,rlm_linelog,))
 $(eval $(call BuildPlugin,freeradius2-mod-logintime,rlm_logintime,))
 $(eval $(call BuildPlugin,freeradius2-mod-mschap,rlm_mschap,))
-$(eval $(call BuildPlugin,freeradius2-mod-otp,rlm_otp,))
 $(eval $(call BuildPlugin,freeradius2-mod-pam,rlm_pam,))
 $(eval $(call BuildPlugin,freeradius2-mod-pap,rlm_pap,))
 $(eval $(call BuildPlugin,freeradius2-mod-passwd,rlm_passwd,))
