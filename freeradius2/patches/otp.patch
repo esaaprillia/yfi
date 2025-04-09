@@ -31,7 +31,7 @@ index 1d36cd2..f7c47d0 100644
 -  HMAC_Final(&hmac_ctx, hmac, NULL);
 -  HMAC_cleanup(&hmac_ctx);
 +  hmac_ctx = HMAC_CTX_new();
-+  HMAC_Init_ex(hmac_ctx, key, sizeof(key[0]) * 16, EVP_md5());
++  HMAC_Init_ex(hmac_ctx, key, sizeof(key[0]) * 16, EVP_md5(), NULL);
 +  HMAC_Update(hmac_ctx, challenge, clen);
 +  HMAC_Update(hmac_ctx, (unsigned char *) &flags, 4);
 +  HMAC_Update(hmac_ctx, (unsigned char *) &when, 4);
