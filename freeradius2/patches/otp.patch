@@ -1,0 +1,41 @@
+From 536c49aea919c86854d67bf59de2d980746b59af Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Wed, 9 Apr 2025 22:27:50 +0800
+Subject: [PATCH] Update otp_radstate.c
+
+---
+ src/modules/rlm_otp/otp_radstate.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/src/modules/rlm_otp/otp_radstate.c b/src/modules/rlm_otp/otp_radstate.c
+index 1d36cd2..2c902cd 100644
+--- a/src/modules/rlm_otp/otp_radstate.c
++++ b/src/modules/rlm_otp/otp_radstate.c
+@@ -87,7 +87,7 @@ otp_gen_state(char rad_state[OTP_MAX_RADSTATE_LEN],
+               size_t clen,
+               int32_t flags, int32_t when, const unsigned char key[16])
+ {
+-  HMAC_CTX hmac_ctx;
++  HMAC_CTX *hmac_ctx;
+   unsigned char hmac[MD5_DIGEST_LENGTH];
+   char *p;
+   char state[OTP_MAX_RADSTATE_LEN];
+@@ -97,12 +97,12 @@ otp_gen_state(char rad_state[OTP_MAX_RADSTATE_LEN],
+    * DES, so we'll use it's hmac functionality also -- saves us from
+    * having to collect the data to be signed into one contiguous piece.
+    */
+-  HMAC_Init(&hmac_ctx, key, sizeof(key[0]) * 16, EVP_md5());
+-  HMAC_Update(&hmac_ctx, challenge, clen);
+-  HMAC_Update(&hmac_ctx, (unsigned char *) &flags, 4);
+-  HMAC_Update(&hmac_ctx, (unsigned char *) &when, 4);
+-  HMAC_Final(&hmac_ctx, hmac, NULL);
+-  HMAC_cleanup(&hmac_ctx);
++  HMAC_Init_ex(hmac_ctx, key, sizeof(key[0]) * 16, EVP_md5());
++  HMAC_Update(hmac_ctx, challenge, clen);
++  HMAC_Update(hmac_ctx, (unsigned char *) &flags, 4);
++  HMAC_Update(hmac_ctx, (unsigned char *) &when, 4);
++  HMAC_Final(hmac_ctx, hmac, NULL);
++  HMAC_CTX_free(hmac_ctx);
+ 
+   /*
+    * Generate the state.  Note that it is in ASCII.  The challenge
