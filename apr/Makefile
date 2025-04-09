@@ -68,6 +68,8 @@ define Build/InstallDev
 	$(SED) 's,-L$$$$libdir,,g' $(1)/usr/bin/apr-1-config
 	$(SED) 's,-R$$$$libdir,,g' $(1)/usr/bin/apr-1-config
 	$(SED) 's,/usr/share/build-1,$(STAGING_DIR)/usr/share/build-1,g' $(1)/usr/share/build-1/apr_rules.mk
+	$(INSTALL_DIR) $(2)/bin
+	$(LN) $(STAGING_DIR)/usr/bin/apr-1-config $(2)/bin/apr-1-config
 endef
 
 define Package/libapr/install
