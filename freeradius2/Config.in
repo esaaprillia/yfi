@@ -2,7 +2,7 @@
 
 choice
 	prompt "SSL library"
-	default FREERADIUS2_NOSSL
+	default FREERADIUS2_OPENSSL
 	depends on PACKAGE_freeradius2-common
 
 config FREERADIUS2_NOSSL
