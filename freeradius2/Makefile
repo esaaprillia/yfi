@@ -72,14 +72,6 @@ define Package/freeradius2-default
 +freeradius2-mod-chap \
 +freeradius2-mod-detail \
 +freeradius2-mod-digest \
-+freeradius2-mod-eap \
-+freeradius2-mod-eap-gtc \
-+freeradius2-mod-eap-leap \
-+freeradius2-mod-eap-md5 \
-+freeradius2-mod-eap-mschapv2 \
-+freeradius2-mod-eap-peap \
-+freeradius2-mod-eap-tls \
-+freeradius2-mod-eap-ttls \
 +freeradius2-mod-exec \
 +freeradius2-mod-expiration \
 +freeradius2-mod-expr \
@@ -236,67 +228,6 @@ endef
 
 define Package/freeradius2-mod-dynamic-clients/conffiles
 /etc/freeradius2/modules/dynamic_clients
-endef
-
-define Package/freeradius2-mod-eap
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2
-  TITLE:=Base EAP module
-endef
-
-define Package/freeradius2-mod-eap/conffiles
-/etc/freeradius2/eap.conf
-/etc/freeradius2/modules/inner-eap
-/etc/freeradius2/sites-available/inner-tunnel
-/etc/freeradius2/sites-available/proxy-inner-tunnel
-endef
-
-define Package/freeradius2-mod-eap-gtc
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap
-  TITLE:=EAP/GTC module
-endef
-
-define Package/freeradius2-mod-eap-leap
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap
-  TITLE:=EAP/LEAP module
-endef
-
-define Package/freeradius2-mod-eap-md5
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap
-  TITLE:=EAP/MD5 module
-endef
-
-define Package/freeradius2-mod-eap-mschapv2
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap +freeradius2-mod-mschap
-  TITLE:=EAP/MS-CHAPv2 module
-endef
-
-define Package/freeradius2-mod-eap-peap
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap @FREERADIUS2_OPENSSL
-  TITLE:=EAP/PEAP module
-endef
-
-define Package/freeradius2-mod-eap-sim
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap
-  TITLE:=EAP/SIM module
-endef
-
-define Package/freeradius2-mod-eap-tls
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap @FREERADIUS2_OPENSSL
-  TITLE:=EAP/TLS module
-endef
-
-define Package/freeradius2-mod-eap-ttls
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2-mod-eap-tls
-  TITLE:=EAP/TTLS module
 endef
 
 define Package/freeradius2-mod-exec
@@ -653,6 +584,15 @@ CONFIGURE_ARGS+= \
 	--with-raddbdir=/etc/freeradius2 \
 	--with-radacctdir=/var/db/radacct \
 	--with-logdir=/var/log \
+	--without-rlm_eap \
+	--without-rlm_eap_gtc \
+	--without-rlm_eap_leap \
+	--without-rlm_eap_md5 \
+	--without-rlm_eap_mschapv2 \
+	--without-rlm_eap_peap \
+	--without-rlm_eap_sim \
+	--without-rlm_eap_tls \
+	--without-rlm_eap_ttls \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
 	--without-rlm_example \
@@ -682,36 +622,6 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-dbm),)
 		--with-rlm_dbm-lib-dir="$(STAGING_DIR)/usr/lib"
 else
   CONFIGURE_ARGS+= --without-rlm_dbm
-endif
-
-ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-eap-peap),)
-  CONFIGURE_ARGS+= \
-		--with-rlm_eap_peap \
-		--with-rlm_eap_peap-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-rlm_eap_peap-lib-dir="$(STAGING_DIR)/usr/lib"
-  CONFIGURE_LIBS+= -lcrypto -lssl
-else
-  CONFIGURE_ARGS+= --without-rlm_eap_peap
-endif
-
-ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-eap-tls),)
-  CONFIGURE_ARGS+= \
-		--with-rlm_eap_tls \
-		--with-rlm_eap_tls-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-rlm_eap_tls-lib-dir="$(STAGING_DIR)/usr/lib"
-  CONFIGURE_LIBS+= -lcrypto -lssl
-else
-  CONFIGURE_ARGS+= --without-rlm_eap_tls
-endif
-
-ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-eap-ttls),)
-  CONFIGURE_ARGS+= \
-		--with-rlm_eap_ttls \
-		--with-rlm_eap_ttls-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-rlm_eap_ttls-lib-dir="$(STAGING_DIR)/usr/lib"
-  CONFIGURE_LIBS+= -lcrypto -lssl
-else
-  CONFIGURE_ARGS+= --without-rlm_eap_ttls
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-ippool),)
@@ -854,7 +764,7 @@ define Package/freeradius2-common/install
 	chmod 771 $(1)/etc/freeradius2
 	$(CP) $(PKG_INSTALL_DIR)/etc/freeradius2/dictionary $(1)/etc/freeradius2/ ; \
 	$(INSTALL_DIR) $(1)/usr/lib/freeradius2
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/libfreeradius-{eap,radius}{,-*}.so $(1)/usr/lib/freeradius2/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius2/libfreeradius-{radius}{,-*}.so $(1)/usr/lib/freeradius2/
 	$(INSTALL_DIR) $(1)/usr/share/freeradius2
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/freeradius2/dictionary $(1)/usr/share/freeradius2/
 	$(SED) "s,^\(\$$$$INCLUDE\),#\1,g" $(1)/usr/share/freeradius2/dictionary
@@ -939,15 +849,6 @@ $(eval $(call BuildPlugin,freeradius2-mod-dbm,rlm_dbm,))
 $(eval $(call BuildPlugin,freeradius2-mod-detail,rlm_detail,))
 $(eval $(call BuildPlugin,freeradius2-mod-digest,rlm_digest,))
 $(eval $(call BuildPlugin,freeradius2-mod-dynamic-clients,rlm_dynamic_clients,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap,rlm_eap,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-gtc,rlm_eap_gtc,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-leap,rlm_eap_leap,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-md5,rlm_eap_md5,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-mschapv2,rlm_eap_mschapv2,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-peap,rlm_eap_peap,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-sim,rlm_eap_sim,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-tls,rlm_eap_tls,))
-$(eval $(call BuildPlugin,freeradius2-mod-eap-ttls,rlm_eap_ttls,))
 $(eval $(call BuildPlugin,freeradius2-mod-exec,rlm_exec,))
 $(eval $(call BuildPlugin,freeradius2-mod-expiration,rlm_expiration,))
 $(eval $(call BuildPlugin,freeradius2-mod-expr,rlm_expr,))
