@@ -542,16 +542,6 @@ define Package/freeradius2-mod-unix/conffiles
 /etc/freeradius2/modules/unix
 endef
 
-define Package/freeradius2-mod-wimax
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2
-  TITLE:=Wimax Authentication
-endef
-
-define Package/freeradius2-mod-wimax/conffiles
-/etc/freeradius2/modules/wimax
-endef
-
 define Package/freeradius2-utils
   $(call Package/freeradius2/Default)
   DEPENDS:=+freeradius2-common
@@ -596,7 +586,8 @@ CONFIGURE_ARGS+= \
 	--without-rlm_sql_freetds \
 	--without-rlm_sql_iodbc \
 	--without-rlm_sql_oracle \
-	--without-rlm_sql_sybase
+	--without-rlm_sql_sybase \
+	--without-rlm_wimax
 
 PKG_DICTIONARIES:= \
 	compat \
@@ -872,5 +863,4 @@ $(eval $(call BuildPlugin,freeradius2-mod-sql-log,rlm_sql_log,))
 $(eval $(call BuildPlugin,freeradius2-mod-sqlcounter,rlm_sqlcounter,))
 $(eval $(call BuildPlugin,freeradius2-mod-sqlippool,rlm_sqlippool,))
 $(eval $(call BuildPlugin,freeradius2-mod-unix,rlm_unix,))
-$(eval $(call BuildPlugin,freeradius2-mod-wimax,rlm_wimax,))
 $(eval $(call BuildPackage,freeradius2-utils))
