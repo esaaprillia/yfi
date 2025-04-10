@@ -27,7 +27,7 @@ PKG_USE_MIPS16:=0
 PHP5_MODULES = \
 	bcmath \
 	calendar ctype curl \
-	fileinfo \
+	fileinfo filter \
 	dom \
 	exif \
 	ftp \
@@ -45,7 +45,7 @@ PHP5_MODULES = \
 
 PKG_CONFIG_DEPENDS:= \
 	$(patsubst %,CONFIG_PACKAGE_php5-mod-%,$(PHP5_MODULES)) \
-	CONFIG_PHP5_FILTER CONFIG_PHP5_LIBXML CONFIG_PHP5_SYSTEMTZDATA CONFIG_PACKAGE_apache-mod-php5
+	CONFIG_PHP5_LIBXML CONFIG_PHP5_SYSTEMTZDATA CONFIG_PACKAGE_apache-mod-php5
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -65,10 +65,6 @@ define Package/php5/Default/description
 endef
 
 define Package/php5/config
-	config PHP5_FILTER
-		bool "PHP5 Filter support"
-		depends on PACKAGE_php5-cli || PACKAGE_php5-cgi
-
 	config PHP5_LIBXML
 		bool "PHP5 LIBXML support"
 		depends on PACKAGE_php5-cli || PACKAGE_php5-cgi
@@ -248,10 +244,9 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gd),)
   CONFIGURE_ARGS+= \
-	--enable-gd=shared,"$(STAGING_DIR)/usr" \
-	--with-external-gd
+	--with-gd=shared,"$(STAGING_DIR)/usr"
 else
-  CONFIGURE_ARGS+= --disable-gd
+  CONFIGURE_ARGS+= --without-gd
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gmp),)
@@ -474,8 +469,8 @@ else
   CONFIGURE_ARGS+= --disable-zip
 endif
 
-ifneq ($(SDK)$(CONFIG_PHP5_FILTER),)
-  CONFIGURE_ARGS+= --enable-filter
+ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-filter),)
+  CONFIGURE_ARGS+= --enable-filter=shared,"$(STAGING_DIR)/usr"
 else
   CONFIGURE_ARGS+= --disable-filter
 endif
@@ -610,6 +605,7 @@ $(eval $(call BuildModule,curl,cURL,+PACKAGE_php5-mod-curl:libcurl))
 $(eval $(call BuildModule,dom,DOM,+@PHP5_LIBXML +PACKAGE_php5-mod-dom:libxml2))
 $(eval $(call BuildModule,exif,EXIF))
 $(eval $(call BuildModule,fileinfo,Fileinfo))
+$(eval $(call BuildModule,filter,Filter))
 $(eval $(call BuildModule,ftp,FTP,+PACKAGE_php5-mod-ftp:libopenssl))
 $(eval $(call BuildModule,gd,GD graphics,+PACKAGE_php5-mod-gd:libgd-full))
 $(eval $(call BuildModule,gettext,Gettext,+PACKAGE_php5-mod-gettext:libintl-full))
