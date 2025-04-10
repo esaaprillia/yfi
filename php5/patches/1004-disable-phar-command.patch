@@ -9,8 +9,8 @@
  
    PHP_INSTALL_HEADERS([ext/phar], [php_phar.h])
  
---- a/configure.ac
-+++ b/configure.ac
+--- a/configure.in
++++ b/configure.in
 @@ -1585,13 +1585,13 @@ CFLAGS_CLEAN="$CFLAGS \$(PROF_FLAGS)"
  CFLAGS="\$(CFLAGS_CLEAN) $standard_libtool_flag"
  CXXFLAGS="$CXXFLAGS $standard_libtool_flag \$(PROF_FLAGS)"
