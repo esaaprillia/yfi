@@ -45,7 +45,7 @@ PHP5_MODULES = \
 
 PKG_CONFIG_DEPENDS:= \
 	$(patsubst %,CONFIG_PACKAGE_php5-mod-%,$(PHP5_MODULES)) \
-	CONFIG_PHP5_FILTER CONFIG_PHP5_LIBXML CONFIG_PHP5_SYSTEMTZDATA CONFIG_PHP5_LIBFREETYPE CONFIG_PACKAGE_apache-mod-php5
+	CONFIG_PHP5_FILTER CONFIG_PHP5_LIBXML CONFIG_PHP5_SYSTEMTZDATA CONFIG_PACKAGE_apache-mod-php5
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -140,13 +140,6 @@ endef
 define Package/php5-fpm/description
   $(call Package/php5/Default/description)
   This package contains the FastCGI Process Manager of the PHP5 interpreter.
-endef
-
-define Package/php5-mod-gd/config
-  config PHP5_LIBFREETYPE
-	bool "Enable Freetype 2 support in php5-mod-gd"
-	depends on PACKAGE_php5-mod-gd
-	default y
 endef
 
 define Package/php5-mod-intl/config
@@ -255,21 +248,10 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gd),)
   CONFIGURE_ARGS+= \
-	--with-gd=shared \
-	--with-jpeg-dir="$(STAGING_DIR)/usr" \
-	--with-png-dir="$(STAGING_DIR)/usr" \
-	--without-xpm-dir \
-	--without-t1lib \
-	--enable-gd-native-ttf \
-	--disable-gd-jis-conv
+	--enable-gd=shared,"$(STAGING_DIR)/usr" \
+	--with-external-gd
 else
-  CONFIGURE_ARGS+= --without-gd
-endif
-
-ifneq ($(CONFIG_PHP5_LIBFREETYPE),)
-  CONFIGURE_ARGS+= --with-freetype-dir="$(STAGING_DIR)"
-else
-  CONFIGURE_ARGS+= --without-freetype-dir
+  CONFIGURE_ARGS+= --disable-gd
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gmp),)
@@ -629,7 +611,7 @@ $(eval $(call BuildModule,dom,DOM,+@PHP5_LIBXML +PACKAGE_php5-mod-dom:libxml2))
 $(eval $(call BuildModule,exif,EXIF))
 $(eval $(call BuildModule,fileinfo,Fileinfo))
 $(eval $(call BuildModule,ftp,FTP,+PACKAGE_php5-mod-ftp:libopenssl))
-$(eval $(call BuildModule,gd,GD graphics,+PACKAGE_php5-mod-gd:libjpeg +PACKAGE_php5-mod-gd:libpng +PHP5_LIBFREETYPE:libfreetype))
+$(eval $(call BuildModule,gd,GD graphics,+PACKAGE_php5-mod-gd:libgd-full))
 $(eval $(call BuildModule,gettext,Gettext,+PACKAGE_php5-mod-gettext:libintl-full))
 $(eval $(call BuildModule,gmp,GMP,+PACKAGE_php5-mod-gmp:libgmp))
 $(eval $(call BuildModule,hash,Hash))
