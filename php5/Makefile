@@ -347,7 +347,7 @@ endif
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-pdo),)
   CONFIGURE_ARGS+= --enable-pdo=shared
   ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-pdo-mysql),)
-    CONFIGURE_ARGS+= --with-pdo-mysql=shared,"$(STAGING_DIR)/usr"
+    CONFIGURE_ARGS+= --with-pdo-mysql=shared
   else
     CONFIGURE_ARGS+= --without-pdo-mysql
   endif
