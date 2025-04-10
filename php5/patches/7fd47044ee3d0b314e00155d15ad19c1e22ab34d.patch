@@ -1,0 +1,22 @@
+From 7fd47044ee3d0b314e00155d15ad19c1e22ab34d Mon Sep 17 00:00:00 2001
+From: Predators <31931530+predators46@users.noreply.github.com>
+Date: Thu, 10 Jun 2021 06:13:16 +0800
+Subject: [PATCH] Update timezone_methods.cpp
+
+---
+ ext/intl/timezone/timezone_methods.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ext/intl/timezone/timezone_methods.cpp b/ext/intl/timezone/timezone_methods.cpp
+index e75472b..7888e51 100644
+--- a/ext/intl/timezone/timezone_methods.cpp
++++ b/ext/intl/timezone/timezone_methods.cpp
+@@ -96,7 +96,7 @@ U_CFUNC PHP_FUNCTION(intltz_from_date_time_zone)
+ 		RETURN_NULL();
+ 	}
+ 
+-	tz = timezone_convert_datetimezone(tzobj->type, tzobj, FALSE, NULL,
++	tz = timezone_convert_datetimezone(tzobj->type, tzobj, false, NULL,
+ 		"intltz_from_date_time_zone" TSRMLS_CC);
+ 	if (tz == NULL) {
+ 		RETURN_NULL();

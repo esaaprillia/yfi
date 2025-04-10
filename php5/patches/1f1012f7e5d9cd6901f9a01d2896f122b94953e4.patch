@@ -1,0 +1,31 @@
+From 1f1012f7e5d9cd6901f9a01d2896f122b94953e4 Mon Sep 17 00:00:00 2001
+From: Predators <31931530+predators46@users.noreply.github.com>
+Date: Thu, 10 Jun 2021 04:59:08 +0800
+Subject: [PATCH] Update normalizer_normalize.c
+
+---
+ ext/intl/normalizer/normalizer_normalize.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ext/intl/normalizer/normalizer_normalize.c b/ext/intl/normalizer/normalizer_normalize.c
+index 1f1d6a7..12adf98 100644
+--- a/ext/intl/normalizer/normalizer_normalize.c
++++ b/ext/intl/normalizer/normalizer_normalize.c
+@@ -160,7 +160,7 @@ PHP_FUNCTION( normalizer_normalize )
+ 	}
+ 
+ 	/* Return it. */
+-	RETVAL_STRINGL( ret_buf, ret_len, FALSE );
++	RETVAL_STRINGL( ret_buf, ret_len, false );
+ }
+ /* }}} */
+ 
+@@ -180,7 +180,7 @@ PHP_FUNCTION( normalizer_is_normalized )
+ 	int		uinput_len = 0;
+ 	UErrorCode	status = U_ZERO_ERROR;
+ 		
+-	UBool		uret = FALSE;
++	UBool		uret = false;
+ 		
+ 	intl_error_reset( NULL TSRMLS_CC );
+ 

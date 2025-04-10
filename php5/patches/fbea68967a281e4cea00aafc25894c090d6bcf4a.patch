@@ -1,0 +1,22 @@
+From fbea68967a281e4cea00aafc25894c090d6bcf4a Mon Sep 17 00:00:00 2001
+From: Predators <31931530+predators46@users.noreply.github.com>
+Date: Thu, 10 Jun 2021 06:02:38 +0800
+Subject: [PATCH] Update timezone_class.cpp
+
+---
+ ext/intl/timezone/timezone_class.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ext/intl/timezone/timezone_class.cpp b/ext/intl/timezone/timezone_class.cpp
+index bd77028..03898c0 100644
+--- a/ext/intl/timezone/timezone_class.cpp
++++ b/ext/intl/timezone/timezone_class.cpp
+@@ -317,7 +317,7 @@ static HashTable *TimeZone_get_debug_info(zval *object, int *is_temp TSRMLS_DC)
+ 
+ 	int32_t rawOffset, dstOffset;
+ 	UDate now = Calendar::getNow();
+-	tz->getOffset(now, FALSE, rawOffset, dstOffset, uec);
++	tz->getOffset(now, false, rawOffset, dstOffset, uec);
+ 	if (U_FAILURE(uec)) {
+ 		return Z_ARRVAL(zv);
+ 	}
