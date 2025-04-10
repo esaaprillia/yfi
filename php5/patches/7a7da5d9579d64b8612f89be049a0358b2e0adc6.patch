@@ -1,0 +1,25 @@
+From 7a7da5d9579d64b8612f89be049a0358b2e0adc6 Mon Sep 17 00:00:00 2001
+From: Predators <31931530+predators46@users.noreply.github.com>
+Date: Fri, 28 Jan 2022 12:57:31 +0800
+Subject: [PATCH] Update codepointiterator_internal.h
+
+---
+ ext/intl/breakiterator/codepointiterator_internal.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ext/intl/breakiterator/codepointiterator_internal.h b/ext/intl/breakiterator/codepointiterator_internal.h
+index 933347b..3183068 100644
+--- a/ext/intl/breakiterator/codepointiterator_internal.h
++++ b/ext/intl/breakiterator/codepointiterator_internal.h
+@@ -36,7 +36,11 @@ namespace PHP {
+ 
+ 		virtual ~CodePointBreakIterator();
+ 
++#if U_ICU_VERSION_MAJOR_NUM >= 70
++		virtual bool operator==(const BreakIterator& that) const;
++#else
+ 		virtual UBool operator==(const BreakIterator& that) const;
++#endif
+ 
+ 		virtual CodePointBreakIterator* clone(void) const;
+ 
