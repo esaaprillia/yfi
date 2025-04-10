@@ -456,6 +456,7 @@ endef
 
 define Package/freeradius2-mod-perl/conffiles
 /etc/freeradius2/modules/perl
+/etc/freeradius2/example.pl
 endef
 
 define Package/freeradius2-mod-policy
