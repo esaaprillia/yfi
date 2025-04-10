@@ -72,7 +72,6 @@ define Package/php5/config
 	config PHP5_SYSTEMTZDATA
 		bool "Use system timezone data instead of php's built-in database"
 		depends on PACKAGE_php5-cli || PACKAGE_php5-cgi || PACKAGE_apache-mod-php5
-		select PACKAGE_zoneinfo-core
 		default y
 		help
 			Enabling this feature automatically selects the zoneinfo-core package
@@ -244,7 +243,8 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gd),)
   CONFIGURE_ARGS+= \
-	--with-gd=shared,"$(STAGING_DIR)/usr"
+	--with-gd=shared,"$(STAGING_DIR)/usr" \
+	--without-xpm-dir
 else
   CONFIGURE_ARGS+= --without-gd
 endif
