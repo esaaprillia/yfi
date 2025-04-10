@@ -243,8 +243,7 @@ endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gd),)
   CONFIGURE_ARGS+= \
-	--with-gd=shared,"$(STAGING_DIR)/usr" \
-	--disable-xpm
+	--with-gd=shared,"$(STAGING_DIR)/usr"
 else
   CONFIGURE_ARGS+= --without-gd
 endif
