@@ -17,8 +17,8 @@ PKG_LICENSE:=PHPv3.01
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=http://www.php.net/distributions/
-PKG_MD5SUM:=c7dde3afb16ce7b761abf2805125d372
+PKG_SOURCE_URL:=https://www.php.net/distributions/
+PKG_HASH:=1369a51eee3995d7fbd1c5342e5cc917760e276d561595b6052b21ace2656d1c
 
 PKG_FIXUP:=libtool autoreconf
 PKG_BUILD_PARALLEL:=1
