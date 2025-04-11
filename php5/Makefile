@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=php
 PKG_VERSION:=5.6.40
-PKG_RELEASE:=3
+PKG_RELEASE:=2
 
 PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>, Michael Heimpold <mhei@heimpold.de>
 
@@ -36,7 +36,7 @@ PHP5_MODULES = \
 	iconv imap intl \
 	json \
 	ldap \
-	mbstring mcrypt mysqli mysqlnd \
+	mbstring mcrypt mysql mysqli mysqlnd \
 	opcache openssl \
 	pcntl pdo pdo-mysql pdo-pgsql pdo-sqlite pgsql phar \
 	session shmop simplexml snmp soap sockets sqlite3 sysvmsg sysvsem sysvshm \
@@ -309,6 +309,12 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-mcrypt),)
   CONFIGURE_ARGS+= --with-mcrypt=shared,"$(STAGING_DIR)/usr"
 else
   CONFIGURE_ARGS+= --without-mcrypt
+endif
+
+ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-mysql),)
+  CONFIGURE_ARGS+= --with-mysql=shared
+else
+  CONFIGURE_ARGS+= --without-mysql
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-mysqli),)
@@ -620,6 +626,7 @@ $(eval $(call BuildModule,json,JSON))
 $(eval $(call BuildModule,ldap,LDAP,+PACKAGE_php5-mod-ldap:libopenldap +PACKAGE_php5-mod-ldap:libsasl2))
 $(eval $(call BuildModule,mbstring,MBString,+PACKAGE_php5-mod-mbstring:oniguruma))
 $(eval $(call BuildModule,mcrypt,Mcrypt,+PACKAGE_php5-mod-mcrypt:libmcrypt +PACKAGE_php5-mod-mcrypt:libltdl))
+$(eval $(call BuildModule,mysql,MySQL,+PACKAGE_php5-mod-mysql:php5-mod-mysqlnd))
 $(eval $(call BuildModule,mysqli,MySQL Improved Extension,+PACKAGE_php5-mod-mysqli:php5-mod-mysqlnd))
 $(eval $(call BuildModule,mysqlnd,MySQL Native Driver,+PACKAGE_php5-mod-openssl:php5-mod-openssl))
 $(eval $(call BuildModule,opcache,OPcache,,zend))
