@@ -1,0 +1,22 @@
+From e7ad18063d75c4f7ae237a12068dfdb580bede6c Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 07:53:12 +0800
+Subject: [PATCH] Update blobmsg_json.c
+
+---
+ blobmsg_json.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/blobmsg_json.c b/blobmsg_json.c
+index ec8b482..f9924fc 100644
+--- a/blobmsg_json.c
++++ b/blobmsg_json.c
+@@ -18,7 +18,7 @@
+ #include "blobmsg_json.h"
+ 
+ #ifdef JSONC
+-	#include <json.h>
++	#include <json-c/json.h>
+ #else
+ 	#include <json/json.h>
+ #endif
