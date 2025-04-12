@@ -97,7 +97,7 @@ define Package/libubox-lua/install
 	$(CP) $(PKG_BUILD_DIR)/lua/uloop.so $(1)/usr/lib/lua/
 endef
 
-
+HOST_CFLAGS += -I$(STAGING_DIR_HOSTPKG)/include
 CMAKE_HOST_OPTIONS += \
 	-DBUILD_LUA=OFF \
 	-DBUILD_EXAMPLES=OFF \
