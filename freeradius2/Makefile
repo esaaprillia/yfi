@@ -650,10 +650,10 @@ CONFIGURE_ARGS+= \
 	--with-system-libtool \
 	--with-system-libltdl \
 	--enable-strict-dependencies \
-	--with-dictdir=/usr/share/freeradius2 \
+	--datarootdir=/usr/share \
 	--with-raddbdir=/etc/freeradius2 \
-	--with-radacctdir=/var/db/radacct \
-	--with-logdir=/var/log \
+	--with-radacctdir=/var/log/radius/radacct \
+	--with-logdir=/var/log/radius \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
 	--without-rlm_example \
