@@ -73,7 +73,7 @@ Subject: [PATCH] Update json_script-example.c
  tests/json_script-example.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/json_script-example.c b/tests/test-json-script.c
+diff --git a/tests/test-json-script.c b/tests/test-json-script.c
 index 6d93059..ab9742a 100644
 --- a/tests/test-json-script.c
 +++ b/tests/test-json-script.c
