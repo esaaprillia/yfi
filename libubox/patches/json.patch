@@ -64,3 +64,25 @@ index 1b685e5..039d9c7 100644
  #else
          #include <json/json.h>
  #endif
+From 5ff5ab97530f03ca7fc08764d7f808e906f831ef Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 08:22:10 +0800
+Subject: [PATCH] Update json_script-example.c
+
+---
+ tests/json_script-example.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/json_script-example.c b/tests/json_script-example.c
+index 6d93059..ab9742a 100644
+--- a/tests/json_script-example.c
++++ b/tests/json_script-example.c
+@@ -1,7 +1,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+-#include <json.h>
++#include <json-c/json.h>
+ #include "blobmsg.h"
+ #include "blobmsg_json.h"
+ #include "json_script.h"
