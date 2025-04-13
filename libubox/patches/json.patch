@@ -42,3 +42,25 @@ index 6d93059..ab9742a 100644
  #include "blobmsg.h"
  #include "blobmsg_json.h"
  #include "json_script.h"
+From 9e0f8995baec4143cdb953d9976e62dc805f3d41 Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 08:16:59 +0800
+Subject: [PATCH] Update jshn.c
+
+---
+ jshn.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/jshn.c b/jshn.c
+index 1b685e5..039d9c7 100644
+--- a/jshn.c
++++ b/jshn.c
+@@ -14,7 +14,7 @@
+  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  */
+ #ifdef JSONC
+-        #include <json.h>
++        #include <json-c/json.h>
+ #else
+         #include <json/json.h>
+ #endif
