@@ -20,3 +20,16 @@ index 5464b2e..b1df5f8 100644
  logdir		= @logdir@
  includedir	= @includedir@
  raddbdir	= @raddbdir@
+Index: freeradius-server-2.2.7/raddb/dictionary.in
+===================================================================
+--- freeradius-server-2.2.7.orig/raddb/dictionary.in
++++ freeradius-server-2.2.7/raddb/dictionary.in
+@@ -11,7 +11,7 @@
+ #
+ #	The filename given here should be an absolute path. 
+ #
+-$INCLUDE	@prefix@/share/freeradius/dictionary
++$INCLUDE	@prefix@/share/freeradius2/dictionary
+ 
+ #
+ #	Place additional attributes or $INCLUDEs here.  They will
