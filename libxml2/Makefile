@@ -18,6 +18,7 @@ PKG_HASH:=60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=COPYING
 PKG_CPE_ID:=cpe:/a:xmlsoft:libxml2
+HOST_BUILD_DEPENDS := libiconv-full/host
 
 PKG_MAINTAINER:=Michael Heimpold <mhei@heimpold.de>
 
@@ -77,7 +78,6 @@ CONFIGURE_ARGS += \
 	--with-c14n \
 	--with-catalog \
 	--with-debug \
-	--without-docbook \
 	--with-html \
 	--without-ftp \
 	--without-http \
@@ -108,11 +108,9 @@ HOST_CONFIGURE_ARGS += \
 	--with-c14n \
 	--with-catalog \
 	--with-debug \
-	--without-docbook \
 	--with-html \
 	--without-ftp \
 	--without-http \
-	--without-iconv \
 	--without-iso8859x \
 	--without-legacy \
 	--with-output \
