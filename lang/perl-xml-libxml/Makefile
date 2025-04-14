@@ -25,6 +25,7 @@ PKG_BUILD_DEPENDS:=perl/host perl-alien-libxml2/host perl-xml-libxml/host
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
+include $(INCLUDE_DIR)/nls.mk
 include ../perl/perlmod.mk
 
 define Package/perl-xml-libxml
@@ -33,7 +34,7 @@ define Package/perl-xml-libxml
   CATEGORY:=Languages
   TITLE:=Perl XML LibXML
   URL:=https://metacpan.org/dist/XML-LibXML
-  DEPENDS:=perl +perl-xml-sax-base +perl-xml-namespacesupport +libxml2 +perl-xml-sax +perl-alien-libxml2
+  DEPENDS:=perl +perl-xml-sax-base +perl-xml-namespacesupport +libxml2 +perl-xml-sax +perl-alien-libxml2 $(ICONV_DEPENDS)
 endef
 
 define Host/Configure
