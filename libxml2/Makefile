@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libxml2
 PKG_VERSION:=2.9.14
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNOME/libxml2/$(basename $(PKG_VERSION))
@@ -75,7 +75,7 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	--with-c14n \
-	--without-catalog \
+	--with-catalog \
 	--with-debug \
 	--without-docbook \
 	--with-html \
@@ -106,7 +106,7 @@ HOST_CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	--with-c14n \
-	--without-catalog \
+	--with-catalog \
 	--with-debug \
 	--without-docbook \
 	--with-html \
