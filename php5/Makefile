@@ -17,7 +17,7 @@ PKG_LICENSE:=PHPv3.01
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=http://www.php.net/distributions/
+PKG_SOURCE_URL:=http://museum.php.net/php5/
 PKG_MD5SUM:=skip
 
 PKG_FIXUP:=libtool autoreconf
