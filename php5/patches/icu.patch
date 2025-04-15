@@ -1,0 +1,31 @@
+From 926dd05acf136ebcf9bb02bb9b3ae9379e013550 Mon Sep 17 00:00:00 2001
+From: Predators <31931530+predators46@users.noreply.github.com>
+Date: Fri, 3 Dec 2021 22:00:04 +0800
+Subject: [PATCH] Update msgformat_helpers.cpp
+
+---
+ ext/intl/msgformat/msgformat_helpers.cpp | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/ext/intl/msgformat/msgformat_helpers.cpp b/ext/intl/msgformat/msgformat_helpers.cpp
+index 1895de2..bb8075f 100644
+--- a/ext/intl/msgformat/msgformat_helpers.cpp
++++ b/ext/intl/msgformat/msgformat_helpers.cpp
+@@ -48,6 +48,17 @@ MessageFormatAdapter::getArgTypeList(const MessageFormat& m,
+ }
+ U_NAMESPACE_END
+ 
++using icu::Formattable;
++using icu::Format;
++using icu::DateFormat;
++using icu::MessageFormat;
++#ifdef HAS_MESSAGE_PATTERN
++using icu::MessagePattern;
++#endif
++using icu::MessageFormatAdapter;
++using icu::FieldPosition;
++using icu::UnicodeString;
++
+ U_CFUNC int32_t umsg_format_arg_count(UMessageFormat *fmt) 
+ {
+ 	int32_t fmt_count = 0;
