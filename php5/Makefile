@@ -476,7 +476,7 @@ endef
 
 define Package/php5-fpm/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/sapi/fpm/php-fpm $(1)/usr/bin/php-fpm
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/sapi/cgi/fpm/php-fpm $(1)/usr/bin/php-fpm
 
 	$(INSTALL_DIR) $(1)/etc
 	$(INSTALL_DATA) ./files/php5-fpm.conf $(1)/etc/php5-fpm.conf
