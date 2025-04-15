@@ -76,15 +76,6 @@ index fad1c9f2b1..706c0b64ed 100755
  esac
  case "$mips_type" in
  '');;
-@@ -23103,7 +23103,7 @@ fi
- 
- : add -D_FORTIFY_SOURCE if feasible and not already there
- case "$gccversion" in
--[4567].*)	case "$optimize$ccflags" in
-+[456789].*|[1-9][0-9]*)	case "$optimize$ccflags" in
- 	*-O*)	case "$ccflags$cppsymbols" in
- 		*_FORTIFY_SOURCE=*) # Don't add it again.
- 			echo "You seem to have -D_FORTIFY_SOURCE already, not adding it." >&4
 diff --git a/cflags.SH b/cflags.SH
 index e60742fed1..f1bcd6c38e 100755
 --- a/cflags.SH
