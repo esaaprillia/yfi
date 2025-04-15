@@ -16,8 +16,8 @@ PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>, Michael Heimpold <mhei@heimp
 PKG_LICENSE:=PHPv3.01
 PKG_LICENSE_FILES:=LICENSE
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=http://museum.php.net/php5/
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=http://www.php.net/distributions/
 PKG_MD5SUM:=skip
 
 PKG_FIXUP:=libtool autoreconf
