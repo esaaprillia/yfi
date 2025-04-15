@@ -8,11 +8,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=freeradius2
-PKG_VERSION:=2.2.10
+PKG_VERSION:=2.1.12
 PKG_RELEASE:=1
 
 PKG_SOURCE:=freeradius-server-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://www.freeradius.org/ftp/pub/freeradius/
+PKG_SOURCE_URL:=https://www.freeradius.org/ftp/pub/freeradius/old/
 PKG_HASH:=skip
 
 PKG_MAINTAINER:=
