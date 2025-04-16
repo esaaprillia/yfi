@@ -4,26 +4,11 @@ Date: Fri, 2 Mar 2012 00:07:41 +0000
 Subject: [PATCH] Fixed bug #61172 (Add Apache 2.4 support)
 
 ---
- NEWS                          |  3 +++
  configure.in                  | 15 +++++++++++++++
  sapi/apache2filter/config.m4  | 13 ++++++++++---
  sapi/apache2handler/config.m4 | 13 ++++++++++---
  4 files changed, 38 insertions(+), 6 deletions(-)
 
-diff --git a/NEWS b/NEWS
-index 467acb7d14aac..bd00ffd372cd0 100644
---- a/NEWS
-+++ b/NEWS
-@@ -6,6 +6,9 @@ PHP                                                                        NEWS
-   . Fixed memory leak in substr_replace. (Pierrick)
-   . make max_file_uploads ini directive settable outside of php.ini (Rasmus)
- 
-+- Installation
-+  . Fixed bug #61172 (Add Apache 2.4 support). (Chris Jones)
-+
- 01 Mar 2012, PHP 5.4.0 
- 
- - Installation:
 diff --git a/configure.in b/configure.in
 index 7701d8bbe1e19..0a6fcd10eac39 100644
 --- a/configure.in
@@ -66,11 +51,11 @@ index b10720a18aa73..c49488d1824ff 100644
      ;;
    esac
  
--  if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser"; then
+-  if test "$APXS_MPM" != "prefork"; then
 -    PHP_BUILD_THREAD_SAFE
 +  if test "$APACHE_VERSION" -lt 2004001; then
 +    APXS_MPM=`$APXS -q MPM_NAME`
-+    if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
++    if test "$APXS_MPM" != "prefork"; then
 +      PHP_BUILD_THREAD_SAFE
 +    fi
 +  else
@@ -97,11 +82,11 @@ index 95217908fd075..702f91f5d23cf 100644
      ;;
    esac
  
--  if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
+-  if test "$APXS_MPM" != "prefork"; then
 -    PHP_BUILD_THREAD_SAFE
 +  if test "$APACHE_VERSION" -lt 2004001; then
 +    APXS_MPM=`$APXS -q MPM_NAME`
-+    if test "$APXS_MPM" != "prefork" && test "$APXS_MPM" != "peruser" && test "$APXS_MPM" != "itk"; then
++    if test "$APXS_MPM" != "prefork"; then
 +      PHP_BUILD_THREAD_SAFE
 +    fi
 +  else
