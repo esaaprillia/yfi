@@ -465,6 +465,7 @@ CONFIGURE_VARS+= \
 	php_cv_cc_rpath="no" \
 	iconv_impl_name="gnu_libiconv" \
 	ac_cv_php_xml2_config_path="$(STAGING_DIR)/host/bin/xml2-config" \
+	APXS="$(STAGING_DIR)/usr/bin/apr-1-config"
 
 define Package/php5/conffiles
 /etc/php.ini
