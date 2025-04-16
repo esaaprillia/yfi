@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=apr
 PKG_VERSION:=1.6.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=@APACHE/apr/
@@ -37,7 +37,6 @@ TARGET_CPPFLAGS += -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE
 
 CONFIGURE_ARGS += \
 	--with-devrandom=/dev/urandom \
-	--disable-dso \
 	$(call autoconf_bool,CONFIG_IPV6,ipv6)
 
 # XXX: ac_cv_sizeof_struct_iovec=1 is just to trick configure
