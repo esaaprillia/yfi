@@ -69,6 +69,8 @@ define Build/InstallDev
 		$(1)/usr/lib/pkgconfig/
 	$(SED) '/^prefix=\|^exec_prefix=/s|/usr|$(STAGING_DIR)/usr|' $(1)/usr/bin/apu-1-config
 	$(SED) '/^bindir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apu-1-config
+	$(SED) '/^libdir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apu-1-config
+	$(SED) '/^includedir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apu-1-config
 	$(INSTALL_DIR) $(2)/bin
 	$(LN) ../../usr/bin/apu-1-config $(2)/bin/apu-1-config
 endef
