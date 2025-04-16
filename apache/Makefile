@@ -225,6 +225,15 @@ CONFIGURE_ARGS+= \
 	--disable-ldap
 endif
 
+ifneq ($(CONFIG_PACKAGE_apache-mod-lua),)
+CONFIGURE_ARGS+= \
+	--enable-lua \
+	--with-lua="$(STAGING_DIR)/usr"
+else
+CONFIGURE_ARGS+= \
+	--disable-lua
+endif
+
 ifneq ($(CONFIG_PACKAGE_apache-mod-proxy),)
 CONFIGURE_ARGS+= \
 	--enable-proxy \
