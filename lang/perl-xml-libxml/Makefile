@@ -44,7 +44,7 @@ define Host/Configure
 endef
 
 define Host/Compile
-        $(call perlmod/host/Compile,,)
+        $(call perlmod/host/Compile,,CFLAGS="$(HOST_CFLAGS) -I$(HOST_BUILD_DIR) -I$(STAGING_DIR_HOSTPKG)/include/libxml2",)
 endef
 
 define Host/Install
