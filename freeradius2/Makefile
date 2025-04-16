@@ -599,7 +599,6 @@ endef
 
 define Package/freeradius2-mod-sqlippool/conffiles
 /etc/freeradius2/sqlippool.conf
-/etc/freeradius2/modules/dhcp_sqlippool
 endef
 
 define Package/freeradius2-mod-unix
