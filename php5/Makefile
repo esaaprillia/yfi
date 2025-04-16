@@ -142,7 +142,8 @@ CONFIGURE_ARGS+= \
 	--with-zlib="$(STAGING_DIR)/usr" \
 	  --with-zlib-dir="$(STAGING_DIR)/usr" \
 	--with-pcre-regex="$(STAGING_DIR)/usr" \
-	--disable-phar
+	--disable-phar \
+ 	--without-sqlite
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-calendar),)
   CONFIGURE_ARGS+= --enable-calendar=shared
