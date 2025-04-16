@@ -279,9 +279,7 @@ endif
 
 CONFIGURE_VARS += \
 	ac_cv_gettid=yes \
-	ap_cv_void_ptr_lt_long=no \
-	APR_CONFIG="$(STAGING_DIR)/usr/bin/apr-1-config" \
-	APU_CONFIG="$(STAGING_DIR)/usr/bin/apu-1-config"
+	ap_cv_void_ptr_lt_long=no
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/bin
