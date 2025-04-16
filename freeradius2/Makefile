@@ -156,16 +156,6 @@ define Package/freeradius2-mod-attr-rewrite/conffiles
 /etc/freeradius2/modules/attr_rewrite
 endef
 
-define Package/freeradius2-mod-cache
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2
-  TITLE:=DATASTORE CACHE
-endef
-
-define Package/freeradius2-mod-cache/conffiles
-/etc/freeradius2/modules/cache
-endef
-
 define Package/freeradius2-mod-chap
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2
@@ -931,7 +921,6 @@ $(eval $(call BuildPlugin,freeradius2-mod-acctlog,rlm_acctlog,))
 $(eval $(call BuildPlugin,freeradius2-mod-always,rlm_always,))
 $(eval $(call BuildPlugin,freeradius2-mod-attr-filter,rlm_attr_filter,))
 $(eval $(call BuildPlugin,freeradius2-mod-attr-rewrite,rlm_attr_rewrite,))
-$(eval $(call BuildPlugin,freeradius2-mod-cache,rlm_cache,))
 $(eval $(call BuildPlugin,freeradius2-mod-chap,rlm_chap,))
 $(eval $(call BuildPlugin,freeradius2-mod-checkval,rlm_checkval,))
 $(eval $(call BuildPlugin,freeradius2-mod-copy-packet,rlm_copy_packet,))
