@@ -17,25 +17,9 @@ Reviewed by: minfrin, jim, ylavic
 
 git-svn-id: https://svn.apache.org/repos/asf/httpd/httpd/branches/2.4.x@1874288 13f79535-47bb-0310-9956-ffa450edef68
 ---
- CHANGES         |  4 ++++
  support/apxs.in | 17 +++++++++++------
  2 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/CHANGES b/CHANGES
-index a3cc660cc63..ce976cb8048 100644
---- a/CHANGES
-+++ b/CHANGES
-@@ -1,6 +1,10 @@
-                                                          -*- coding: utf-8 -*-
- Changes with Apache 2.4.42
- 
-+  *) Add support for cross compiling to apxs. If apxs is being executed from somewhere
-+     other than its target location, add that prefix to includes and library directories.
-+     Without this, apxs would fail to find config_vars.mk and exit. [Graham Leggett]
-+
-   *) mod_ssl: Disable client verification on ACME ALPN challenges. Fixes github
-      issue mod_md#172 (https://github.com/icing/mod_md/issues/172).
-      [Michael Kaufmann <mail michael-kaufmann.ch>, Stefan Eissing]
 diff --git a/support/apxs.in b/support/apxs.in
 index ad1287ffb13..f7110978e6a 100644
 --- a/support/apxs.in
