@@ -1,0 +1,22 @@
+From 037eea8aa6a8cb1f9b1ab945e77735c94946d2e4 Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Fri, 11 Apr 2025 06:28:41 +0800
+Subject: [PATCH] Update config.m4
+
+---
+ sapi/apache2handler/config.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sapi/apache2handler/config.m4 b/sapi/apache2handler/config.m4
+index 02f8a0b..d267b40 100644
+--- a/sapi/apache2handler/config.m4
++++ b/sapi/apache2handler/config.m4
+@@ -77,7 +77,7 @@ if test "$PHP_APXS2" != "no"; then
+                 \$(mkinstalldirs) '$APXS_SYSCONFDIR' && \
+                  $APXS -S LIBEXECDIR='$APXS_LIBEXECDIR' \
+                        -S SYSCONFDIR='$APXS_SYSCONFDIR' \
+-                       -i -a -n php5"
++                       -i -n php5"
+   fi
+ 
+   case $host_alias in
