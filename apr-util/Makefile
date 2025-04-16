@@ -67,11 +67,10 @@ define Build/InstallDev
 		$(1)/usr/lib/
 	$(CP)   $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/apr-util-1.pc \
 		$(1)/usr/lib/pkgconfig/
-	$(SED) 's, -e \"s -I$$$$prefix/lib  g\",,g' $(1)/usr/bin/apu-1-config
-	$(SED) 's,^libdir=\"$$$${exec_prefix}/lib,libdir=\"$(STAGING_DIR)/usr/lib,g' $(1)/usr/bin/apu-1-config
-	$(SED) 's,^includedir=\"$$$${prefix}/include/,includedir=\"$(STAGING_DIR)/usr/include/,g' $(1)/usr/bin/apu-1-config
-	$(SED) 's,-L$$$$libdir,,g' $(1)/usr/bin/apu-1-config
-	$(SED) 's,-R$$$$libdir,,g' $(1)/usr/bin/apu-1-config
+	$(SED) '/^prefix=\|^exec_prefix=/s|/usr|$(STAGING_DIR)/usr|' $(1)/usr/bin/apu-1-config
+	$(SED) '/^bindir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apu-1-config
+	$(INSTALL_DIR) $(2)/bin
+	$(LN) ../../usr/bin/apu-1-config $(2)/bin/apu-1-config
 endef
 
 define Package/libaprutil/install
