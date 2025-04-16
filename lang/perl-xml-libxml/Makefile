@@ -37,6 +37,8 @@ define Package/perl-xml-libxml
   DEPENDS:=perl +perl-xml-sax-base +perl-xml-namespacesupport +libxml2 +perl-xml-sax +perl-alien-libxml2 $(ICONV_DEPENDS)
 endef
 
+HOST_CFLAGS += -I$(STAGING_DIR_HOSTPKG)/include/libxml2
+
 define Host/Configure
         $(call perlmod/host/Configure,,,)
 endef
