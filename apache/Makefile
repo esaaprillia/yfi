@@ -49,6 +49,12 @@ include $(INCLUDE_DIR)/package.mk
 # without nls.mk mod_xml2enc might not find the iconv headers
 include $(INCLUDE_DIR)/nls.mk
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(SED) 's,@APR_CONFIG@,$(STAGING_DIR)/usr/bin/apr-1-config,g' $(PKG_BUILD_DIR)/build/config_vars.sh.in
+	$(SED) 's,@APU_CONFIG@,$(STAGING_DIR)/usr/bin/apu-1-config,g' $(PKG_BUILD_DIR)/build/config_vars.sh.in
+endef
+
 define Package/apache/Default
   SECTION:=net
   CATEGORY:=Network
