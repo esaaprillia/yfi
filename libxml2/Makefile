@@ -104,8 +104,11 @@ HOST_CONFIGURE_ARGS += \
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(2)/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/xml2-config $(2)/bin/
-	$(SED) 's,^\(prefix\|exec_prefix\)=.*,\1=$(STAGING_DIR)/usr,g' $(2)/bin/xml2-config
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/xml2-config \
+		$(2)/bin/$(GNU_TARGET_NAME)-xml2-config
+	$(SED) 's,^\(prefix\|exec_prefix\)=.*,\1=$(STAGING_DIR)/usr,g' \
+		$(2)/bin/$(GNU_TARGET_NAME)-xml2-config
+	$(LN) $(GNU_TARGET_NAME)-xml2-config $(2)/bin/xml2-config
 
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/libxml2 $(1)/usr/include/
@@ -130,8 +133,9 @@ define Package/libxml2/install
 endef
 
 define Host/Install
-	$(SED) 's,^\(prefix\|exec_prefix\)=.*,\1=$(STAGING_DIR)/usr,g' $(HOST_BUILD_DIR)/xml2-config
 	$(call Host/Install/Default)
+	mv $(1)/bin/xml2-config $(1)/bin/$(GNU_HOST_NAME)-xml2-config
+	$(LN) $(GNU_HOST_NAME)-xml2-config $(1)/bin/xml2-config
 endef
 
 $(eval $(call HostBuild))
