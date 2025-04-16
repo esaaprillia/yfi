@@ -1,0 +1,22 @@
+From 394e2ddcc71005d5f26793831b6362437568e62d Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Wed, 16 Apr 2025 19:59:52 +0800
+Subject: [PATCH] Update Devel.xs
+
+---
+ Devel.xs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Devel.xs b/Devel.xs
+index 23e8beb..1cc5e58 100644
+--- a/Devel.xs
++++ b/Devel.xs
+@@ -25,7 +25,7 @@
+ #include <stdlib.h>
+ 
+ /* XML::LibXML stuff */
+-#include <libxml/xmlmemory.h>
++#include <libxml2/libxml/xmlmemory.h>
+ #include "perl-libxml-mm.h"
+ 
+ #undef NDEBUG
