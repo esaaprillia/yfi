@@ -49,12 +49,6 @@ include $(INCLUDE_DIR)/package.mk
 # without nls.mk mod_xml2enc might not find the iconv headers
 include $(INCLUDE_DIR)/nls.mk
 
-define Build/Prepare
-	$(call Build/Prepare/Default)
-	$(SED) 's,@APR_CONFIG@,$(STAGING_DIR)/usr/bin/apr-1-config,g' $(PKG_BUILD_DIR)/build/config_vars.sh.in
-	$(SED) 's,@APU_CONFIG@,$(STAGING_DIR)/usr/bin/apu-1-config,g' $(PKG_BUILD_DIR)/build/config_vars.sh.in
-endef
-
 define Package/apache/Default
   SECTION:=net
   CATEGORY:=Network
@@ -297,10 +291,10 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/share/apache2/build
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/apache2/build/* \
 				$(1)/usr/share/apache2/build
-	$(SED) 's,/usr/bin,$(STAGING_DIR)/usr/bin,g' $(1)/usr/bin/apxs
-	$(SED) 's,/usr/share/apache2/build,$(STAGING_DIR)/usr/share/apache2/build,g' \
+	$(SED) 's%"/usr/bin"%"$(STAGING_DIR)/usr/bin"%' $(1)/usr/bin/apxs
+	$(SED) 's%/usr/share/apache2/build%$(STAGING_DIR)/usr/share/apache2/build%' \
 		$(1)/usr/bin/apxs
-	$(SED) 's,^\(prefix\)=.*,\1=$(STAGING_DIR)/usr,g' \
+	$(SED) 's%^prefix =.*%prefix = $(STAGING_DIR)/usr%' \
 		$(1)/usr/share/apache2/build/config_vars.mk
 endef
 
