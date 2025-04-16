@@ -66,6 +66,8 @@ define Build/InstallDev
 	$(SED) '/^bindir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apr-1-config
 	$(SED) '/^datadir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apr-1-config
 	$(SED) '/^datarootdir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apr-1-config
+	$(SED) '/^installbuilddir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apr-1-config
+	$(SED) '/^includedir=/s|/usr|$$$${prefix}|' $(1)/usr/bin/apr-1-config
 	$(SED) 's,/usr/share/build-1,$(STAGING_DIR)/usr/share/build-1,g' \
 				$(1)/usr/share/build-1/apr_rules.mk
 	$(INSTALL_DIR) $(2)/bin
