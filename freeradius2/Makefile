@@ -767,7 +767,7 @@ endif
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-redis),)
   CONFIGURE_ARGS+= \
 		--with-rlm_redis \
-		--with-rlm_redis-include-dir="$(STAGING_DIR)/usr/include" \
+		--with-rlm_redis-include-dir="$(STAGING_DIR)/usr/include/hiredis" \
 		--with-rlm_redis-lib-dir="$(STAGING_DIR)/usr/lib"
 else
   CONFIGURE_ARGS+= --without-rlm_redis
@@ -776,7 +776,7 @@ endif
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-rediswho),)
   CONFIGURE_ARGS+= \
 		--with-rlm_rediswho \
-		--with-rlm_rediswho-include-dir="$(STAGING_DIR)/usr/include" \
+		--with-rlm_rediswho-include-dir="$(STAGING_DIR)/usr/include/hiredis" \
 		--with-rlm_rediswho-lib-dir="$(STAGING_DIR)/usr/lib"
 else
   CONFIGURE_ARGS+= --without-rlm_rediswho
