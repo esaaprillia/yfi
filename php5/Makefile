@@ -456,7 +456,7 @@ else
 endif
 
 ifneq ($(CONFIG_PACKAGE_apache-mod-php5),)
-  CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
+  CONFIGURE_VARS+= APXS="$(STAGING_DIR)/usr/bin/apxs"
 endif
 
 CONFIGURE_VARS+= \
