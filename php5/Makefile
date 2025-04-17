@@ -129,6 +129,17 @@ define Package/php5-fastcgi/description
   on the php5-cgi package, containing just the startup script.
 endef
 
+define Package/php5-fpm
+  $(call Package/php5/Default)
+  DEPENDS+= +php5-cgi
+  TITLE+= (FPM)
+endef
+
+define Package/php5-fpm/description
+  $(call Package/php5/Default/description)
+  This package contains the FastCGI Process Manager of the PHP5 interpreter.
+endef
+
 define Package/apache-mod-php5
   $(call Package/php5/Default)
   SUBMENU:=Web Servers/Proxies
@@ -148,6 +159,7 @@ endef
 CONFIGURE_ARGS+= \
 	--enable-cli \
 	--enable-cgi \
+	--enable-fpm \
 	--enable-shared \
 	--disable-static \
 	--disable-rpath \
@@ -443,15 +455,12 @@ else
   CONFIGURE_ARGS+= --without-system-tzdata
 endif
 
-ifneq ($(CONFIG_PACKAGE_apache-mod-php5),)
-  CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
-endif
-
 CONFIGURE_VARS+= \
 	ac_cv_c_bigendian_php=$(if $(CONFIG_BIG_ENDIAN),yes,no) \
 	php_cv_cc_rpath="no" \
 	iconv_impl_name="gnu_libiconv" \
 	ac_cv_php_xml2_config_path="$(STAGING_DIR)/host/bin/xml2-config" \
+	APXS="$(STAGING_DIR)/usr/bin/apr-1-config"
 
 define Package/php5/conffiles
 /etc/php.ini
@@ -479,6 +488,23 @@ define Package/php5-fastcgi/install
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/php5-fastcgi.init $(1)/etc/init.d/php5-fastcgi
+endef
+
+define Package/php5-fpm/install
+	#$(INSTALL_DIR) $(1)/usr/bin
+	#$(INSTALL_BIN) $(PKG_BUILD_DIR)/sapi/cgi/fpm/php-fpm $(1)/usr/bin/php-fpm
+
+	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_DATA) ./files/php5-fpm.conf $(1)/etc/php5-fpm.conf
+
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) ./files/php5-fpm.config $(1)/etc/config/php5-fpm
+
+	$(INSTALL_DIR) $(1)/etc/php5-fpm.d
+	$(INSTALL_DATA) ./files/php5-fpm-www.conf $(1)/etc/php5-fpm.d/www.conf
+
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/php5-fpm.init $(1)/etc/init.d/php5-fpm
 endef
 
 define Package/apache-mod-php5/install
@@ -532,6 +558,7 @@ $(eval $(call BuildPackage,php5))
 $(eval $(call BuildPackage,php5-cgi))
 $(eval $(call BuildPackage,php5-cli))
 $(eval $(call BuildPackage,php5-fastcgi))
+$(eval $(call BuildPackage,php5-fpm))
 $(eval $(call BuildPackage,apache-mod-php5))
 
 #$(eval $(call BuildModule,NAME,TITLE[,PKG DEPENDS]))
