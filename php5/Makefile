@@ -455,12 +455,15 @@ else
   CONFIGURE_ARGS+= --without-system-tzdata
 endif
 
+ifneq ($(SDK)$(CONFIG_PACKAGE_apache-mod-php5),)
+  CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
+endif
+
 CONFIGURE_VARS+= \
 	ac_cv_c_bigendian_php=$(if $(CONFIG_BIG_ENDIAN),yes,no) \
 	php_cv_cc_rpath="no" \
 	iconv_impl_name="gnu_libiconv" \
 	ac_cv_php_xml2_config_path="$(STAGING_DIR)/host/bin/xml2-config" \
-	APXS="$(STAGING_DIR)/usr/bin/apr-1-config"
 
 define Package/php5/conffiles
 /etc/php.ini
