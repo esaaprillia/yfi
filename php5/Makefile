@@ -455,7 +455,7 @@ else
   CONFIGURE_ARGS+= --without-system-tzdata
 endif
 
-ifneq ($(SDK)$(CONFIG_PACKAGE_apache-mod-php5),)
+ifneq ($(CONFIG_PACKAGE_apache-mod-php5),)
   CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
 endif
 
