@@ -36,7 +36,7 @@ PHP5_MODULES = \
 	ldap \
 	mbstring mcrypt mysql mysqli \
 	openssl \
-	pcntl pdo pdo-mysql pdo-pgsql pdo-sqlite pgsql phar \
+	pcntl pdo pdo-mysql pdo-pgsql pdo-sqlite pgsql \
 	session shmop simplexml snmp soap sockets sqlite sysvmsg sysvsem sysvshm \
 	tokenizer \
 	xml xmlreader xmlwriter zip \
@@ -324,12 +324,6 @@ else
   CONFIGURE_ARGS+= --without-pgsql
 endif
 
-ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-phar),)
-  CONFIGURE_ARGS+= --enable-phar=shared
-else
-  CONFIGURE_ARGS+= --disable-phar
-endif
-
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-session),)
   CONFIGURE_ARGS+= --enable-session=shared
 else
@@ -578,7 +572,6 @@ $(eval $(call BuildModule,pdo-mysql,PDO driver for MySQL,+php5-mod-pdo +PACKAGE_
 $(eval $(call BuildModule,pdo-pgsql,PDO driver for PostgreSQL,+php5-mod-pdo +PACKAGE_php5-mod-pdo-pgsql:libpq))
 $(eval $(call BuildModule,pdo-sqlite,PDO driver for SQLite 3.x,+php5-mod-pdo +PACKAGE_php5-mod-pdo-sqlite:libsqlite3 +PACKAGE_php5-mod-pdo-sqlite:librt))
 $(eval $(call BuildModule,pgsql,PostgreSQL,+PACKAGE_php5-mod-pgsql:libpq))
-$(eval $(call BuildModule,phar,Phar Archives))
 $(eval $(call BuildModule,session,Session))
 $(eval $(call BuildModule,shmop,Shared Memory))
 $(eval $(call BuildModule,simplexml,SimpleXML,+@PHP5_LIBXML +PACKAGE_php5-mod-simplexml:libxml2))
