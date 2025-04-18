@@ -158,6 +158,7 @@ endef
 
 CONFIGURE_ARGS+= \
 	--enable-cli \
+	--enable-cgi \
 	--enable-fpm \
 	--enable-shared \
 	--disable-static \
@@ -455,8 +456,6 @@ else
 endif
 
 ifneq ($(CONFIG_PACKAGE_apache-mod-php5),)
-  CONFIGURE_ARGS+= --enable-cgi
-else
   CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
 endif
 
@@ -481,9 +480,9 @@ define Package/php5-cli/install
 endef
 
 define Package/php5-cgi/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_BUILD_DIR)/sapi/cgi/php-cgi $(1)/usr/bin/php-cgi
-	ln -sf php-cgi $(1)/usr/bin/php-fcgi
+	#$(INSTALL_DIR) $(1)/usr/bin
+	#$(CP) $(PKG_BUILD_DIR)/sapi/cgi/php-cgi $(1)/usr/bin/php-cgi
+	#ln -sf php-cgi $(1)/usr/bin/php-fcgi
 endef
 
 define Package/php5-fastcgi/install
@@ -607,3 +606,4 @@ $(eval $(call BuildModule,xml,XML,+PHP5_LIBXML:libxml2 +!PHP5_LIBXML:libexpat))
 $(eval $(call BuildModule,xmlreader,XMLReader,+@PHP5_LIBXML +PACKAGE_php5-mod-xmlreader:libxml2))
 $(eval $(call BuildModule,xmlwriter,XMLWriter,+@PHP5_LIBXML +PACKAGE_php5-mod-xmlwriter:libxml2))
 $(eval $(call BuildModule,zip,ZIP,+PACKAGE_php5-mod-zip:zlib))
+
