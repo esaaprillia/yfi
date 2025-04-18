@@ -158,7 +158,6 @@ endef
 
 CONFIGURE_ARGS+= \
 	--enable-cli \
-	--enable-cgi \
 	--enable-fpm \
 	--enable-shared \
 	--disable-static \
@@ -456,7 +455,9 @@ else
 endif
 
 ifneq ($(CONFIG_PACKAGE_apache-mod-php5),)
-  CONFIGURE_VARS+= APXS="$(STAGING_DIR)/usr/bin/apxs"
+  CONFIGURE_ARGS+= --enable-cgi
+else
+  CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
 endif
 
 CONFIGURE_VARS+= \
