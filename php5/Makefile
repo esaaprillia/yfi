@@ -558,10 +558,10 @@ define BuildModule
 endef
 
 $(eval $(call BuildPackage,php5))
-$(eval $(call BuildPackage,php5-cgi))
+#$(eval $(call BuildPackage,php5-cgi))
 $(eval $(call BuildPackage,php5-cli))
-$(eval $(call BuildPackage,php5-fastcgi))
-$(eval $(call BuildPackage,php5-fpm))
+#$(eval $(call BuildPackage,php5-fastcgi))
+#$(eval $(call BuildPackage,php5-fpm))
 $(eval $(call BuildPackage,apache-mod-php5))
 
 #$(eval $(call BuildModule,NAME,TITLE[,PKG DEPENDS]))
@@ -606,4 +606,3 @@ $(eval $(call BuildModule,xml,XML,+PHP5_LIBXML:libxml2 +!PHP5_LIBXML:libexpat))
 $(eval $(call BuildModule,xmlreader,XMLReader,+@PHP5_LIBXML +PACKAGE_php5-mod-xmlreader:libxml2))
 $(eval $(call BuildModule,xmlwriter,XMLWriter,+@PHP5_LIBXML +PACKAGE_php5-mod-xmlwriter:libxml2))
 $(eval $(call BuildModule,zip,ZIP,+PACKAGE_php5-mod-zip:zlib))
-
