@@ -7,7 +7,7 @@ Index: httpd-2.4.25/include/scoreboard.h
  /* Scoreboard file, if there is one */
  #ifndef DEFAULT_SCOREBOARD
 -#define DEFAULT_SCOREBOARD "logs/apache_runtime_status"
-+#define DEFAULT_SCOREBOARD "log/apache_runtime_status"
++#define DEFAULT_SCOREBOARD "log/apache2_runtime_status"
  #endif
  
  /* Scoreboard info on a process is, for now, kept very brief ---
