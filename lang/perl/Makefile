@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2016 OpenWrt.org
+# Copyright (C) 2006-2018 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -11,18 +11,17 @@ include perlver.mk
 
 PKG_NAME:=perl
 PKG_VERSION:=$(PERL_VERSION)
-PKG_RELEASE:=4
+PKG_RELEASE:=3
 
-PKG_SOURCE_URL:=ftp://ftp.cpan.org/pub/CPAN/src/5.0 \
-		http://www.cpan.org/src/5.0 \
-		ftp://ftp.mpi-sb.mpg.de/pub/perl/CPAN/src/5.0 \
-		http://ftp.mpi-sb.mpg.de/pub/perl/CPAN/src/5.0 \
-		ftp://ftp.gmd.de/mirrors/CPAN/src/5.0 \
-		http://ftp5.gwdg.de/pub/languages/perl/CPAN/src/ \
-		ftp://ftp.funet.fi/pub/languages/perl/CPAN/src/5.0 \
-		http://ftp.funet.fi/pub/languages/perl/CPAN/src/5.0
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_MD5SUM:=19295bbb775a3c36123161b9bf4892f1
+PKG_SOURCE_URL:=\
+		https://cpan.metacpan.org/src/5.0 \
+		https://cpan.uib.no/src/5.0 \
+		https://mirrors.rit.edu/CPAN/src/5.0 \
+		https://mirror.transip.net/CPAN/src/5.0 \
+		https://mirrors.sonic.net/cpan/src/5.0 \
+		https://www.cpan.org/src/5.0
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+PKG_HASH:=059b3cb69970d8c8c5964caced0335b4af34ac990c8e61f7e3f90cd1c2d11e49
 
 PKG_LICENSE:=GPL-1.0+ Artistic-1.0-Perl
 PKG_LICENSE_FILES:=Copying Artistic README
@@ -99,7 +98,7 @@ define Build/Configure
 	                                -Dowrt:gccversion=$(CONFIG_GCC_VERSION) \
 	                                -Dowrt:target_cross='$(TARGET_CROSS)' \
 	                                -Dowrt:cflags='$(TARGET_CFLAGS_PERL) $(TARGET_CPPFLAGS_PERL)' \
-	                                -Dowrt:ldflags='-rdynamic $(TARGET_LDFLAGS)' \
+	                                -Dowrt:ldflags='$(TARGET_LDFLAGS)' \
 	                                -Dowrt:libc=$(subst uClibc,uclibc,$(CONFIG_LIBC)) \
 	                                -Dowrt:ipv6=$(if $($(CONFIG_IPV6)),define,undef) \
 	                                -Dowrt:threads=$(if $(CONFIG_PERL_THREADS),yes,no) \

@@ -1,7 +1,11 @@
 # This makefile simplifies perl module builds.
 #
 
-include ../perl/perlver.mk
+ifeq ($(origin PERL_INCLUDE_DIR),undefined)
+  PERL_INCLUDE_DIR:=$(dir $(lastword $(MAKEFILE_LIST)))
+endif
+
+include $(PERL_INCLUDE_DIR)/perlver.mk
 
 ifneq ($(PKG_NAME),perl)
   PKG_VERSION:=$(PKG_VERSION)+perl$(PERL_VERSION2)
@@ -31,8 +35,8 @@ PERLMOD_TESTSDIR:=/usr/share/perl/perlmod-tests
 define perlmod/host/relink
 	rm -f $(1)/Makefile.aperl
 	$(MAKE) -C $(1) perl
-	$(CP) $(1)/perl $(PERL_CMD)
-	$(CP) $(1)/perl $(STAGING_DIR_HOSTPKG)/usr/bin/perl
+	$(INSTALL_BIN) $(1)/perl $(PERL_CMD)
+	$(INSTALL_BIN) $(1)/perl $(STAGING_DIR_HOSTPKG)/usr/bin/perl
 endef
 
 define perlmod/host/Configure
@@ -61,9 +65,10 @@ endef
 
 define perlmod/Configure
 	(cd $(if $(3),$(3),$(PKG_BUILD_DIR)); \
-	PERL_MM_USE_DEFAULT=1 \
-	$(2) \
-	$(PERL_CMD) -MConfig -e '$$$${tied %Config::Config}{cpprun}="$(GNU_TARGET_NAME)-cpp -E"; do "Makefile.PL"' \
+	 (echo -e 'use Config;\n\n$$$${tied %Config::Config}{cpprun}="$(GNU_TARGET_NAME)-cpp -E";\n' ; cat Makefile.PL) | \
+	 PERL_MM_USE_DEFAULT=1 \
+	 $(2) \
+	 $(PERL_CMD) -I. -- - \
 		$(1) \
 		AR=ar \
 		CC=$(GNU_TARGET_NAME)-gcc \
@@ -109,8 +114,8 @@ define perlmod/Configure
 		INSTALLVENDORMAN3DIR=" " \
 		LINKTYPE=dynamic \
 		DESTDIR=$(PKG_INSTALL_DIR) \
-	);
-	sed 's!^PERL_INC = .*!PERL_INC = $(STAGING_DIR)/usr/lib/perl5/$(PERL_VERSION)/CORE/!' -i $(if $(3),$(3),$(PKG_BUILD_DIR))/Makefile
+	)
+	sed -i -e 's!^PERL_INC = .*!PERL_INC = $(STAGING_DIR)/usr/lib/perl5/$(PERL_VERSION)/CORE/!' $(if $(3),$(3),$(PKG_BUILD_DIR))/Makefile
 endef
 
 define perlmod/Compile
