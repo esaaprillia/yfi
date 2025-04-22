@@ -670,7 +670,7 @@ CONFIGURE_ARGS+= \
 
 PKG_DICTIONARIES:= \
 	compat \
-	freeradius freeradius.internal \
+	dictionary.chillispot freeradius freeradius.internal \
 	rfc2865 rfc2866 rfc2867 rfc2868 rfc2869 rfc3162 rfc3576 rfc3580 \
 	rfc4372 rfc4675 rfc4679 \
 	microsoft \
