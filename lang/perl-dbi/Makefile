@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=perl-dbi
 PKG_VERSION:=1.643
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=DBI-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.cpan.org/authors/id/T/TI/TIMB/
@@ -57,7 +57,7 @@ define Host/Install
 endef
 
 define Package/perl-dbi/install
-	$(call perlmod/Install,$(1),DB* auto/DBI,DBI/W32ODBC.pm auto/DBI/*.h)
+	$(call perlmod/Install,$(1),Bundle DBD DBI.pm DBI Win32 auto dbixs_rev.pl)
 endef
 
 
