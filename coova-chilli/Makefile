@@ -12,7 +12,7 @@ PKG_VERSION:=1.3.0+20141128
 PKG_MAINTAINER:=Jaehoon You <teslamint@gmail.com>
 PKG_LICENSE:=GPL-2.0+
 PKG_LICENSE_FILES:=COPYING
-PKG_RELEASE:=6
+PKG_RELEASE:=7
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://github.com/coova/coova-chilli
@@ -126,8 +126,8 @@ define Package/coova-chilli/install
 	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/chilli.conf $(1)/etc/
 	$(INSTALL_DIR) $(1)/etc/chilli
 	$(CP) $(PKG_INSTALL_DIR)/etc/chilli/* $(1)/etc/chilli/
-	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
-	$(INSTALL_DATA) ./files/chilli.hotplug $(1)/etc/hotplug.d/iface/30-chilli
+	#$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	#$(INSTALL_DATA) ./files/chilli.hotplug $(1)/etc/hotplug.d/iface/30-chilli
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/chilli* $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/usr/lib/
@@ -136,12 +136,12 @@ define Package/coova-chilli/install
 		$(INSTALL_DIR) $(1)/usr/lib/iptables; \
 		$(CP) $(PKG_INSTALL_DIR)/usr/lib/iptables/lib*.so $(1)/usr/lib/iptables/ \
 	)
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) files/chilli.init $(1)/etc/init.d/chilli
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) files/chilli.config $(1)/etc/config/chilli
-	$(INSTALL_DIR) $(1)/lib/firewall
-	$(CP) files/chilli.firewall $(1)/lib/firewall/chilli.sh
+	#$(INSTALL_DIR) $(1)/etc/init.d
+	#$(INSTALL_BIN) files/chilli.init $(1)/etc/init.d/chilli
+	#$(INSTALL_DIR) $(1)/etc/config
+	#$(INSTALL_DATA) files/chilli.config $(1)/etc/config/chilli
+	#$(INSTALL_DIR) $(1)/lib/firewall
+	#$(CP) files/chilli.firewall $(1)/lib/firewall/chilli.sh
 endef
 
 $(eval $(call BuildPackage,coova-chilli))
