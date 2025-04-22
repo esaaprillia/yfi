@@ -13,15 +13,6 @@ Patch inspired by drkhosla's comment at issue #200
  src/options.c    |  2 +-
  2 files changed, 8 insertions(+), 15 deletions(-)
 
-From 6aaf47c1cf0a9c27743e39b0fc02dacb89e46cd0 Mon Sep 17 00:00:00 2001
-From: esaaprillia <esaapriliasalsabila@gmail.com>
-Date: Tue, 22 Apr 2025 21:16:05 +0800
-Subject: [PATCH] Update main-redir.c
-
----
- src/main-redir.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
-
 diff --git a/src/main-redir.c b/src/main-redir.c
 index 2591113..d6c8fe2 100644
 --- a/src/main-redir.c
