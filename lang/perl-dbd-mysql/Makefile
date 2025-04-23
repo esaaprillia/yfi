@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=perl-dbd-mysql
 PKG_VERSION:=4.052
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=DBD-mysql-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://cpan.metacpan.org/authors/id/D/DV/DVEEDEN/
