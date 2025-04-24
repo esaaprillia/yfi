@@ -1,141 +1,215 @@
 #
+# Copyright (C) 2007-2021 OpenWrt.org
+# Copyright (C) 2010 Vertical Communications
+#
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
 
 include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/kernel.mk
+include $(INCLUDE_DIR)/version.mk
+include $(INCLUDE_DIR)/feeds.mk
 
-PKG_NAME:=imagemagick
-PKG_VERSION:=7.0.9
-PKG_REVISION:=5
-PKG_RELEASE:=2
-PKG_MAINTAINER:=Val Kulkov <val.kulkov@gmail.com>
+PKG_NAME:=base-files
+PKG_FLAGS:=nonshared
+PKG_RELEASE:=$(COMMITCOUNT)
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REVISION).tar.gz
-PKG_SOURCE_URL:=http://github.com/ImageMagick/ImageMagick/archive/$(PKG_VERSION)-$(PKG_REVISION)
-PKG_HASH:=d15abd31e7e18f7edec47df156773a23e5100386e55c6ce50f5353e9572d3413
-PKG_BUILD_DIR:=$(BUILD_DIR)/ImageMagick-$(PKG_VERSION)-$(PKG_REVISION)
+PKG_FILE_DEPENDS:=$(PLATFORM_DIR)/ $(GENERIC_PLATFORM_DIR)/base-files/
+PKG_BUILD_DEPENDS:=usign/host ucert/host
+PKG_LICENSE:=GPL-2.0
 
-PKG_LICENSE:=Apache-2.0
-PKG_LICENSE_FILES:=LICENSE
-PKG_CPE_ID:=cpe:/a:imagemagick:imagemagick
-
-PKG_USE_MIPS16:=0
-PKG_INSTALL:=1
+# Extend depends from version.mk
+PKG_CONFIG_DEPENDS += \
+	CONFIG_SIGNED_PACKAGES CONFIG_TARGET_INIT_PATH CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE \
+	CONFIG_NAND_SUPPORT \
+	CONFIG_CLEAN_IPKG \
+	CONFIG_PER_FEED_REPO \
+	$(foreach feed,$(FEEDS_AVAILABLE),CONFIG_FEED_$(feed))
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/imagemagick/Default
-  SECTION:=multimedia
-  CATEGORY:=Multimedia
-  TITLE:=Image manipulation tools
-  URL:=https://www.imagemagick.org/
+ifneq ($(DUMP),1)
+  STAMP_CONFIGURED:=$(strip $(STAMP_CONFIGURED))_$(shell echo $(CONFIG_TARGET_INIT_PATH) | mkhash md5)
+  TARGET:=-$(BOARD)
+endif
+
+define Package/base-files
+  SECTION:=base
+  CATEGORY:=Base system
+  DEPENDS:=+netifd +libc +jsonfilter +SIGNED_PACKAGES:usign +SIGNED_PACKAGES:openwrt-keyring +NAND_SUPPORT:ubi-utils +fstools +fwtool
+  TITLE:=Base filesystem for OpenWrt
+  URL:=http://openwrt.org/
+  VERSION:=$(PKG_RELEASE)-$(REVISION)
 endef
 
-define Package/imagemagick
-  $(call Package/imagemagick/Default)
-  DEPENDS:=+libltdl +libpthread +zlib +libfreetype +libpng +libjpeg +libtiff
+define Package/base-files/conffiles
+/etc/config/
+/etc/config/network
+/etc/config/system
+/etc/crontabs/
+/etc/dropbear/
+/etc/ethers
+/etc/group
+/etc/hosts
+/etc/inittab
+/etc/iproute2/rt_protos
+/etc/iproute2/rt_tables
+/etc/passwd
+/etc/profile
+/etc/profile.d
+/etc/protocols
+/etc/rc.local
+/etc/services
+/etc/shadow
+/etc/shells
+/etc/shinit
+/etc/sysctl.conf
+/etc/sysupgrade.conf
+$(call $(TARGET)/conffiles)
 endef
 
-define Package/imagemagick/description
-ImageMagick is a free and open-source software suite for displaying,
-converting, and editing raster image and vector image files.
-NOTE: this package may not be suitable for many embedded devices because
-of its large size. Consider using extroot or alternatively consider
-graphicsmagick which is smaller but similar in functionality.
+define Package/base-files/description
+ This package contains a base filesystem and system scripts for OpenWrt.
 endef
 
-define Package/imagemagick/conffiles
-/etc/ImageMagick-7/colors.xml
-/etc/ImageMagick-7/delegates.xml
-/etc/ImageMagick-7/log.xml
-/etc/ImageMagick-7/mime.xml
-/etc/ImageMagick-7/policy.xml
-/etc/ImageMagick-7/quantization-table.xml
-/etc/ImageMagick-7/thresholds.xml
-/etc/ImageMagick-7/type-apple.xml
-/etc/ImageMagick-7/type-dejavu.xml
-/etc/ImageMagick-7/type-ghostscript.xml
-/etc/ImageMagick-7/type-urw-base35.xml
-/etc/ImageMagick-7/type-windows.xml
-/etc/ImageMagick-7/type.xml
+define ImageConfigOptions
+	mkdir -p $(1)/lib/preinit
+	echo 'pi_suppress_stderr="$(CONFIG_TARGET_PREINIT_SUPPRESS_STDERR)"' >$(1)/lib/preinit/00_preinit.conf
+	echo 'fs_failsafe_wait_timeout=$(if $(CONFIG_TARGET_PREINIT_TIMEOUT),$(CONFIG_TARGET_PREINIT_TIMEOUT),2)' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_init_path="$(TARGET_INIT_PATH)"' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_init_env=$(if $(CONFIG_TARGET_INIT_ENV),$(CONFIG_TARGET_INIT_ENV),"")' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_init_cmd=$(if $(CONFIG_TARGET_INIT_CMD),$(CONFIG_TARGET_INIT_CMD),"/sbin/init")' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_init_suppress_stderr="$(CONFIG_TARGET_INIT_SUPPRESS_STDERR)"' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_ifname=$(if $(CONFIG_TARGET_PREINIT_IFNAME),$(CONFIG_TARGET_PREINIT_IFNAME),"")' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_ip=$(if $(CONFIG_TARGET_PREINIT_IP),$(CONFIG_TARGET_PREINIT_IP),"192.168.1.1")' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_netmask=$(if $(CONFIG_TARGET_PREINIT_NETMASK),$(CONFIG_TARGET_PREINIT_NETMASK),"255.255.255.0")' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_broadcast=$(if $(CONFIG_TARGET_PREINIT_BROADCAST),$(CONFIG_TARGET_PREINIT_BROADCAST),"192.168.1.255")' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_preinit_net_messages="$(CONFIG_TARGET_PREINIT_SHOW_NETMSG)"' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_preinit_no_failsafe_netmsg="$(CONFIG_TARGET_PREINIT_SUPPRESS_FAILSAFE_NETMSG)"' >>$(1)/lib/preinit/00_preinit.conf
+	echo 'pi_preinit_no_failsafe="$(CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE)"' >>$(1)/lib/preinit/00_preinit.conf
 endef
 
-CONFIGURE_ARGS += \
-	--enable-shared \
-	--disable-static \
-	--disable-docs \
-	--enable-dependency-tracking \
-	--with-modules \
-	--with-threads \
-	--with-ltdl \
-	--with-zlib \
-	--disable-hdri \
-	--with-quantum-depth=8 \
-	--disable-deprecated \
-	--disable-cipher \
-	--without-bzlib \
-	--without-autotrace \
-	--without-djvu \
-	--without-dps \
-	--without-fftw \
-	--without-flif \
-	--without-fpx \
-	--without-fontconfig \
-	--without-gslib \
-	--without-gvc \
-	--without-heic \
-	--without-jbig \
-	--without-lcms \
-	--without-lqr \
-	--without-lzma \
-	--without-magick-plus-plus \
-	--without-openexr \
-	--without-openjp2 \
-	--without-raqm \
-	--without-raw \
-	--without-webp \
-	--without-x \
-	--without-zstd \
-	--without-gslib \
-	--without-gvc \
-	--without-pango \
-	--without-perl \
-	--without-rsvg \
-	--without-wmf \
-	--without-xml \
-	--with-freetype \
-	--with-jpeg \
-	--with-png \
-	--with-tiff
-
-TARGET_CFLAGS += $(if $(CONFIG_GCC_USE_VERSION_10),,-flto)
-
-define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/include
-	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/include/* \
-		$(1)/usr/include/
-
-	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/lib/*.so* \
-		$(1)/usr/lib/
-
-	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
-	$(INSTALL_DATA) \
-		$(PKG_INSTALL_DIR)/usr/lib/pkgconfig/* \
-		$(1)/usr/lib/pkgconfig/
+define Build/Prepare
+	mkdir -p $(PKG_BUILD_DIR)
 endef
 
-IMlibdir:=usr/lib/ImageMagick-$(PKG_VERSION)
-define Package/imagemagick/install
-	$(INSTALL_DIR) $(1)/etc $(1)/usr/bin $(1)/$(IMlibdir)
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so.* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
-	$(RM) $(1)/usr/bin/*-config
-	$(CP) $(PKG_INSTALL_DIR)/etc/ImageMagick-* $(1)/etc/
-	$(CP) $(PKG_INSTALL_DIR)/$(IMlibdir)/* $(1)/$(IMlibdir)/
+define Build/Compile/Default
+
+endef
+Build/Compile = $(Build/Compile/Default)
+
+ifdef CONFIG_SIGNED_PACKAGES
+  define Build/Configure
+	[ -s $(BUILD_KEY) -a -s $(BUILD_KEY).pub ] || \
+		$(STAGING_DIR_HOSTPKG)/bin/usign -G -s $(BUILD_KEY) -p $(BUILD_KEY).pub -c "Local build key"
+
+	[ -s $(BUILD_KEY).ucert ] || \
+		$(STAGING_DIR_HOSTPKG)/bin/ucert -I -c $(BUILD_KEY).ucert -p $(BUILD_KEY).pub -s $(BUILD_KEY)
+
+  endef
+
+ifndef CONFIG_BUILDBOT
+  define Package/base-files/install-key
+	mkdir -p $(1)/etc/opkg/keys
+	$(CP) $(BUILD_KEY).pub $(1)/etc/opkg/keys/`$(STAGING_DIR_HOSTPKG)/bin/usign -F -p $(BUILD_KEY).pub`
+
+  endef
+endif
+endif
+
+ifeq ($(CONFIG_NAND_SUPPORT),)
+  define Package/base-files/nand-support
+	rm -f $(1)/lib/upgrade/nand.sh
+  endef
+endif
+
+define Package/base-files/install
+	$(CP) ./files/* $(1)/
+	$(Package/base-files/install-key)
+	$(Package/base-files/nand-support)
+	if [ -d $(GENERIC_PLATFORM_DIR)/base-files/. ]; then \
+		$(CP) $(GENERIC_PLATFORM_DIR)/base-files/* $(1)/; \
+	fi
+	if [ -d $(PLATFORM_DIR)/base-files/. ]; then \
+		$(CP) $(PLATFORM_DIR)/base-files/* $(1)/; \
+	fi
+	$(if $(filter-out $(PLATFORM_DIR),$(PLATFORM_SUBDIR)), \
+		if [ -d $(PLATFORM_SUBDIR)/base-files/. ]; then \
+			$(CP) $(PLATFORM_SUBDIR)/base-files/* $(1)/; \
+		fi; \
+	)
+
+	$(VERSION_SED_SCRIPT) \
+		$(1)/etc/banner \
+		$(1)/etc/openwrt_version \
+		$(1)/usr/lib/os-release
+
+	$(VERSION_SED_SCRIPT) \
+		$(1)/etc/openwrt_release \
+		$(1)/etc/device_info \
+		$(1)/usr/lib/os-release
+
+	$(SED) "s#%PATH%#$(TARGET_INIT_PATH)#g" \
+		$(1)/sbin/hotplug-call \
+		$(1)/etc/preinit \
+		$(1)/etc/profile
+
+	mkdir -p $(1)/CONTROL
+	mkdir -p $(1)/dev
+	mkdir -p $(1)/etc/config
+	mkdir -p $(1)/etc/crontabs
+	mkdir -p $(1)/etc/rc.d
+	mkdir -p $(1)/overlay
+	mkdir -p $(1)/lib/firmware
+	$(if $(LIB_SUFFIX),-$(LN) lib $(1)/lib$(LIB_SUFFIX))
+	mkdir -p $(1)/mnt
+	mkdir -p $(1)/proc
+	mkdir -p $(1)/tmp
+	mkdir -p $(1)/usr/lib
+	$(if $(LIB_SUFFIX),-$(LN) lib $(1)/usr/lib$(LIB_SUFFIX))
+	mkdir -p $(1)/usr/bin
+	mkdir -p $(1)/sys
+	mkdir -p $(1)/www
+	mkdir -p $(1)/root
+	$(LN) /proc/mounts $(1)/etc/mtab
+	mkdir -p $(1)/var
+	$(LN) /tmp/run $(1)/var/run
+	mkdir -p $(1)/etc
+	$(LN) /tmp/resolv.conf /tmp/TZ /tmp/localtime $(1)/etc/
+
+	chmod 0600 $(1)/etc/shadow
+	chmod 1777 $(1)/tmp
+
+	$(call ImageConfigOptions,$(1))
+	$(call Package/base-files/install-target,$(1))
+	for conffile in $(1)/etc/config/*; do \
+		if [ -f "$$$$conffile" ]; then \
+			grep "$$$${conffile##$(1)}" $(1)/CONTROL/conffiles || \
+				echo "$$$${conffile##$(1)}" >> $(1)/CONTROL/conffiles; \
+		fi \
+	done
+
+	$(if $(CONFIG_INCLUDE_CONFIG), \
+		echo -e "# Build configuration for board $(BOARD)/$(SUBTARGET)/$(PROFILE)\n" >$(1)/etc/build.config; \
+		cat $(BIN_DIR)/config.buildinfo >>$(1)/etc/build.config; \
+		cat $(BIN_DIR)/feeds.buildinfo >>$(1)/etc/build.feeds; \
+		cat $(BIN_DIR)/version.buildinfo >>$(1)/etc/build.version)
+
+	$(if $(CONFIG_CLEAN_IPKG),, \
+		mkdir -p $(1)/etc/opkg; \
+		$(call FeedSourcesAppend,$(1)/etc/opkg/distfeeds.conf); \
+		$(VERSION_SED_SCRIPT) $(1)/etc/opkg/distfeeds.conf)
+	$(if $(CONFIG_IPK_FILES_CHECKSUMS),, \
+		rm -f $(1)/sbin/pkg_check)
+
+	$(if $(CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE), \
+		rm -f $(1)/etc/banner.failsafe,)
 endef
 
-$(eval $(call BuildPackage,imagemagick))
+ifneq ($(DUMP),1)
+  -include $(PLATFORM_DIR)/base-files.mk
+  -include $(PLATFORM_SUBDIR)/base-files.mk
+endif
+
+$(eval $(call BuildPackage,base-files))
