@@ -192,12 +192,6 @@ define Package/freeradius2-mod-counter/conffiles
 /etc/freeradius2/modules/counter
 endef
 
-define Package/freeradius2-mod-dbm
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2 +libgdbm
-  TITLE:=Module dbm
-endef
-
 define Package/freeradius2-mod-detail
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2
@@ -406,16 +400,6 @@ endef
 
 define Package/freeradius2-mod-otp/conffiles
 /etc/freeradius2/modules/otp
-endef
-
-define Package/freeradius2-mod-pam
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2 +libpam
-  TITLE:=PAM module
-endef
-
-define Package/freeradius2-mod-pam/conffiles
-/etc/freeradius2/modules/pam
 endef
 
 define Package/freeradius2-mod-pap
@@ -643,10 +627,12 @@ CONFIGURE_ARGS+= \
 	--with-raddbdir=/etc/freeradius2 \
 	--with-radacctdir=/var/log/radius/radacct \
 	--with-logdir=/var/log/radius \
+	--without-rlm_dbm \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
 	--without-rlm_example \
 	--without-rlm_opendirectory \
+	--without-rlm_pam \
 	--without-rlm_python \
 	--without-rlm_ruby \
 	--without-rlm_smb \
@@ -664,15 +650,6 @@ PKG_DICTIONARIES:= \
 	rfc4372 rfc4675 rfc4679 \
 	microsoft \
 	wispr
-
-ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-dbm),)
-  CONFIGURE_ARGS+= \
-		--with-rlm_dbm \
-		--with-rlm_dbm-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-rlm_dbm-lib-dir="$(STAGING_DIR)/usr/lib"
-else
-  CONFIGURE_ARGS+= --without-rlm_dbm
-endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-eap-peap),)
   CONFIGURE_ARGS+= \
@@ -924,7 +901,6 @@ $(eval $(call BuildPlugin,freeradius2-mod-chap,rlm_chap,))
 $(eval $(call BuildPlugin,freeradius2-mod-checkval,rlm_checkval,))
 $(eval $(call BuildPlugin,freeradius2-mod-copy-packet,rlm_copy_packet,))
 $(eval $(call BuildPlugin,freeradius2-mod-counter,rlm_counter,))
-$(eval $(call BuildPlugin,freeradius2-mod-dbm,rlm_dbm,))
 $(eval $(call BuildPlugin,freeradius2-mod-detail,rlm_detail,))
 $(eval $(call BuildPlugin,freeradius2-mod-digest,rlm_digest,))
 $(eval $(call BuildPlugin,freeradius2-mod-dynamic-clients,rlm_dynamic_clients,))
@@ -949,7 +925,6 @@ $(eval $(call BuildPlugin,freeradius2-mod-linelog,rlm_linelog,))
 $(eval $(call BuildPlugin,freeradius2-mod-logintime,rlm_logintime,))
 $(eval $(call BuildPlugin,freeradius2-mod-mschap,rlm_mschap,))
 $(eval $(call BuildPlugin,freeradius2-mod-otp,rlm_otp,))
-$(eval $(call BuildPlugin,freeradius2-mod-pam,rlm_pam,))
 $(eval $(call BuildPlugin,freeradius2-mod-pap,rlm_pap,))
 $(eval $(call BuildPlugin,freeradius2-mod-passwd,rlm_passwd,))
 $(eval $(call BuildPlugin,freeradius2-mod-perl,rlm_perl,))
