@@ -1,0 +1,62 @@
+From c940aab7895fa4cb109e7790ae14080090b04959 Mon Sep 17 00:00:00 2001
+From: Remi Collet <remi@php.net>
+Date: Tue, 2 Jul 2013 10:42:47 +0200
+Subject: [PATCH] Fixed Bug #65143 Missing php-cgi man page
+
+Currently php-cgi man page is a simple redirect to
+php (CLI) man page.
+
+Could be splited / improved in the future.
+---
+ sapi/cgi/Makefile.frag | 3 +++
+ sapi/cgi/config9.m4    | 2 ++
+ sapi/cgi/php-cgi.1.in  | 1 +
+ sapi/cli/php.1.in      | 2 ++
+ 4 files changed, 8 insertions(+)
+ create mode 100644 sapi/cgi/php-cgi.1.in
+
+diff --git a/sapi/cgi/Makefile.frag b/sapi/cgi/Makefile.frag
+index 505119e57288..d54dd40808e0 100644
+--- a/sapi/cgi/Makefile.frag
++++ b/sapi/cgi/Makefile.frag
+@@ -6,4 +6,7 @@ $(SAPI_CGI_PATH): $(PHP_GLOBAL_OBJS) $(PHP_BINARY_OBJS) $(PHP_CGI_OBJS)
+ install-cgi: $(SAPI_CGI_PATH)
+ 	@echo "Installing PHP CGI binary:        $(INSTALL_ROOT)$(bindir)/"
+ 	@$(INSTALL) -m 0755 $(SAPI_CGI_PATH) $(INSTALL_ROOT)$(bindir)/$(program_prefix)php-cgi$(program_suffix)$(EXEEXT)
++	@echo "Installing PHP CGI man page:      $(INSTALL_ROOT)$(mandir)/man1/"
++	@$(mkinstalldirs) $(INSTALL_ROOT)$(mandir)/man1
++	@$(INSTALL_DATA) sapi/cgi/php-cgi.1 $(INSTALL_ROOT)$(mandir)/man1/$(program_prefix)php-cgi$(program_suffix).1
+ 
+diff --git a/sapi/cgi/config9.m4 b/sapi/cgi/config9.m4
+index 67251aeb588d..49e61c83c3da 100644
+--- a/sapi/cgi/config9.m4
++++ b/sapi/cgi/config9.m4
+@@ -71,6 +71,8 @@ if test "$PHP_CGI" != "no"; then
+     dnl Expose to Makefile
+     PHP_SUBST(SAPI_CGI_PATH)
+     PHP_SUBST(BUILD_CGI)
++
++    PHP_OUTPUT(sapi/cgi/php-cgi.1)
+ else
+   AC_MSG_RESULT(yes)
+ fi
+diff --git a/sapi/cgi/php-cgi.1.in b/sapi/cgi/php-cgi.1.in
+new file mode 100644
+index 000000000000..340e6c5d6096
+--- /dev/null
++++ b/sapi/cgi/php-cgi.1.in
+@@ -0,0 +1 @@
++.so man1/php.1
+diff --git a/sapi/cli/php.1.in b/sapi/cli/php.1.in
+index 0e9d07ac771d..6f0266d9e549 100644
+--- a/sapi/cli/php.1.in
++++ b/sapi/cli/php.1.in
+@@ -1,6 +1,8 @@
+ .TH PHP 1 "2013" "The PHP Group" "Scripting Language"
+ .SH NAME
+ php \- PHP Command Line Interface 'CLI'
++.P
++php-cgi \- PHP Command Gateway Interface 'CGI'
+ .SH SYNOPSIS
+ .B php
+ [options] [
