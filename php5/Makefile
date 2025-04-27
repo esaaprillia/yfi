@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=php
 PKG_VERSION:=5.2.17
-PKG_RELEASE:=2
+PKG_RELEASE:=1
 
 PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>, Michael Heimpold <mhei@heimpold.de>
 
@@ -37,7 +37,7 @@ PHP5_MODULES = \
 	mbstring mcrypt mysql mysqli \
 	openssl \
 	pcntl pdo pdo-mysql pdo-pgsql pdo-sqlite pgsql \
-	session shmop simplexml snmp soap sockets sqlite sysvmsg sysvsem sysvshm \
+	session shmop simplexml soap sockets sqlite sysvmsg sysvsem sysvshm \
 	tokenizer \
 	xml xmlreader xmlwriter zip \
 
@@ -315,12 +315,6 @@ else
   CONFIGURE_ARGS+= --disable-simplexml
 endif
 
-ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-snmp),)
-   CONFIGURE_ARGS+= --with-snmp=shared,"$(STAGING_DIR)/usr"
- else
-   CONFIGURE_ARGS+= --without-snmp
- endif
-
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-soap),)
   CONFIGURE_ARGS+= --enable-soap=shared
 else
@@ -520,7 +514,6 @@ $(eval $(call BuildModule,pgsql,PostgreSQL,+PACKAGE_php5-mod-pgsql:libpq))
 $(eval $(call BuildModule,session,Session))
 $(eval $(call BuildModule,shmop,Shared Memory))
 $(eval $(call BuildModule,simplexml,SimpleXML,+@PHP5_LIBXML +PACKAGE_php5-mod-simplexml:libxml2))
-$(eval $(call BuildModule,snmp,SNMP,+PACKAGE_php5-mod-snmp:libnetsnmp +PACKAGE_php5-mod-snmp:libopenssl))
 $(eval $(call BuildModule,soap,SOAP,+@PHP5_LIBXML +PACKAGE_php5-mod-soap:libxml2))
 $(eval $(call BuildModule,sockets,Sockets))
 $(eval $(call BuildModule,sqlite,SQLite2,+PACKAGE_php5-mod-sqlite:libsqlite2))
@@ -532,4 +525,3 @@ $(eval $(call BuildModule,xml,XML,+PHP5_LIBXML:libxml2 +!PHP5_LIBXML:libexpat))
 $(eval $(call BuildModule,xmlreader,XMLReader,+@PHP5_LIBXML +PACKAGE_php5-mod-xmlreader:libxml2))
 $(eval $(call BuildModule,xmlwriter,XMLWriter,+@PHP5_LIBXML +PACKAGE_php5-mod-xmlwriter:libxml2))
 $(eval $(call BuildModule,zip,ZIP,+PACKAGE_php5-mod-zip:zlib))
-
