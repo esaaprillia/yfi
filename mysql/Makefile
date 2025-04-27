@@ -13,13 +13,17 @@ PKG_VERSION:=5.1.73
 PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://downloads.mysql.com/archives/get/p/23/file/
-PKG_HASH:=skip
+PKG_SOURCE_URL:=\
+	http://mysql.he.net/Downloads/MySQL-5.1/ \
+	http://www.linorg.usp.br/mysql/Downloads/MySQL-5.1/ \
+	http://www.mirrorservice.org/sites/ftp.mysql.com/Downloads/MySQL-5.1/ \
+	http://mirror.switch.ch/ftp/mirror/mysql/Downloads/MySQL-5.1/
 
+PKG_MD5SUM:=887f869bcc757957067b9198f707f32f
 PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
 PKG_LICENSE:=GPL-2.0
-PKG_LICENSE_FILES:=COPYING
 
+PKG_BUILD_DEPENDS:=libncurses libreadline
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
@@ -32,18 +36,16 @@ define Package/libmysqlclient/Default
   CATEGORY:=Libraries
   DEPENDS:=$(CXX_DEPENDS) +zlib
   TITLE:=MySQL client library
-  URL:=https://dev.mysql.com/
-  CONFLICTS:=mariadb libmariadb
+  URL:=http://dev.mysql.com/
 endef
 
 define Package/mysql-server
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS:=+libmysqlclient +libpthread +libncurses +libreadline
+  DEPENDS:=+libmysqlclient +libpthread +libncursesw +libreadline
   TITLE:=MySQL Server
-  URL:=https://dev.mysql.com/
+  URL:=http://dev.mysql.com/
   SUBMENU:=database
-  CONFLICTS:=mariadb libmariadb
 endef
 
 define Package/libmysqlclient
@@ -153,7 +155,6 @@ define Package/libmysqlclient/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/mysql/libmysqlclient.so.* $(1)/usr/lib/
 endef
-
 define Package/libmysqlclient-r/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/mysql/libmysqlclient_r.so.* $(1)/usr/lib/
