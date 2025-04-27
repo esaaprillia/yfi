@@ -13,7 +13,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE:=Mail_Mime-$(PKG_VERSION).tgz
 PKG_SOURCE_URL:=http://download.pear.php.net/package/
-PKG_MD5SUM:=a26f4aa0c599f0a5341bab3994d46207
+PKG_MD5SUM:=skip
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/Mail_Mime-$(PKG_VERSION)
 
