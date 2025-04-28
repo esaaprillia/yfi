@@ -625,8 +625,8 @@ CONFIGURE_ARGS+= \
 	--enable-strict-dependencies \
 	--datarootdir=/usr/share \
 	--with-raddbdir=/etc/freeradius2 \
-	--with-radacctdir=/var/log/radius/radacct \
-	--with-logdir=/var/log/radius \
+	--with-radacctdir=/var/db/radacct \
+	--with-logdir=/var/log \
 	--without-rlm_dbm \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
