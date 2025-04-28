@@ -25,7 +25,7 @@ define Package/php-pear-mdb2
   CATEGORY:=Languages
   TITLE:=PEAR MDB2 module
   URL:=https://pear.php.net/package/MDB2
-  DEPENDS:=+php-pear
+  DEPENDS:=+pear
 endef
 
 define Build/Configure
