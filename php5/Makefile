@@ -188,7 +188,7 @@ endif
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gd),)
   CONFIGURE_ARGS+= \
 	--with-gd=shared \
-	--without-freetype-dir \
+	--with-freetype-dir="$(STAGING_DIR)/usr/include/freetype2" \
 	--with-jpeg-dir="$(STAGING_DIR)/usr" \
 	--with-png-dir="$(STAGING_DIR)/usr" \
 	--without-xpm-dir \
