@@ -290,6 +290,7 @@ define Package/freeradius2-mod-exec
 endef
 
 define Package/freeradius2-mod-exec/conffiles
+/etc/freeradius2/modules/echo
 /etc/freeradius2/modules/exec
 endef
 
