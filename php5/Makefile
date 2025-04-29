@@ -43,7 +43,7 @@ PHP5_MODULES = \
 
 PKG_CONFIG_DEPENDS:= \
 	$(patsubst %,CONFIG_PACKAGE_php5-mod-%,$(PHP5_MODULES)) \
-	CONFIG_PHP5_FILTER CONFIG_PHP5_LIBXML CONFIG_PHP5_SYSTEMTZDATA
+	CONFIG_PHP5_FILTER CONFIG_PHP5_LIBXML CONFIG_PHP5_SYSTEMTZDATA CONFIG_PACKAGE_apache-mod-php5
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -73,7 +73,7 @@ define Package/php5/config
 
 	config PHP5_SYSTEMTZDATA
 		bool "Use system timezone data instead of php's built-in database"
-		depends on PACKAGE_php5-cli || PACKAGE_php5-cgi
+		depends on PACKAGE_php5-cli || PACKAGE_php5-cgi || PACKAGE_apache-mod-php5
 		select PACKAGE_zoneinfo-core
 		default y
 		help
@@ -124,6 +124,21 @@ endef
 define Package/php5-fastcgi/description
   As FastCGI support is now a core feature the php5-fastcgi package now depends
   on the php5-cgi package, containing just the startup script.
+endef
+
+define Package/apache-mod-php5
+  $(call Package/php5/Default)
+  SUBMENU:=Web Servers/Proxies
+  SECTION:=net
+  CATEGORY:=Network
+  DEPENDS+=PACKAGE_apache-mod-php5:apache \
+	   +libpcre +zlib
+  TITLE:=PHP5 module for Apache Web Server
+endef
+
+define Package/apache-mod-php5/description
+  $(call Package/php5/Default/description)
+  This package contains the PHP module for the Apache Web Server.
 endef
 
 CONFIGURE_ARGS+= \
@@ -188,7 +203,7 @@ endif
 ifneq ($(SDK)$(CONFIG_PACKAGE_php5-mod-gd),)
   CONFIGURE_ARGS+= \
 	--with-gd=shared \
-	--without-freetype-dir \
+	--with-freetype-dir="$(STAGING_DIR)/usr" \
 	--with-jpeg-dir="$(STAGING_DIR)/usr" \
 	--with-png-dir="$(STAGING_DIR)/usr" \
 	--without-xpm-dir \
@@ -405,6 +420,10 @@ else
   CONFIGURE_ARGS+= --without-system-tzdata
 endif
 
+ifneq ($(CONFIG_PACKAGE_apache-mod-php5),)
+  CONFIGURE_ARGS+= --with-apxs2=$(STAGING_DIR)/usr/bin/apxs
+endif
+
 CONFIGURE_VARS+= \
 	ac_cv_c_bigendian_php=$(if $(CONFIG_BIG_ENDIAN),yes,no) \
 	php_cv_cc_rpath="no" \
@@ -426,17 +445,22 @@ define Package/php5-cli/install
 endef
 
 define Package/php5-cgi/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_BUILD_DIR)/sapi/cgi/php-cgi $(1)/usr/bin/php-cgi
-	ln -sf php-cgi $(1)/usr/bin/php-fcgi
+	#$(INSTALL_DIR) $(1)/usr/bin
+	#$(CP) $(PKG_BUILD_DIR)/sapi/cgi/php-cgi $(1)/usr/bin/php-cgi
+	#ln -sf php-cgi $(1)/usr/bin/php-fcgi
 endef
 
 define Package/php5-fastcgi/install
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./files/php5-fastcgi.config $(1)/etc/config/php5-fastcgi
+	#$(INSTALL_DIR) $(1)/etc/config
+	#$(INSTALL_DATA) ./files/php5-fastcgi.config $(1)/etc/config/php5-fastcgi
 
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/php5-fastcgi.init $(1)/etc/init.d/php5-fastcgi
+	#$(INSTALL_DIR) $(1)/etc/init.d
+	#$(INSTALL_BIN) ./files/php5-fastcgi.init $(1)/etc/init.d/php5-fastcgi
+endef
+
+define Package/apache-mod-php5/install
+	$(INSTALL_DIR) $(1)/usr/lib/apache2
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libs/libphp5.so $(1)/usr/lib/apache2
 endef
 
 define Build/Prepare
@@ -482,9 +506,10 @@ define BuildModule
 endef
 
 $(eval $(call BuildPackage,php5))
-$(eval $(call BuildPackage,php5-cgi))
+#$(eval $(call BuildPackage,php5-cgi))
 $(eval $(call BuildPackage,php5-cli))
-$(eval $(call BuildPackage,php5-fastcgi))
+#$(eval $(call BuildPackage,php5-fastcgi))
+$(eval $(call BuildPackage,apache-mod-php5))
 
 #$(eval $(call BuildModule,NAME,TITLE[,PKG DEPENDS]))
 $(eval $(call BuildModule,calendar,Calendar))
@@ -493,7 +518,7 @@ $(eval $(call BuildModule,curl,cURL,+PACKAGE_php5-mod-curl:libcurl))
 $(eval $(call BuildModule,dom,DOM,+@PHP5_LIBXML +PACKAGE_php5-mod-dom:libxml2))
 $(eval $(call BuildModule,exif,EXIF))
 $(eval $(call BuildModule,ftp,FTP,+PACKAGE_php5-mod-ftp:libopenssl))
-$(eval $(call BuildModule,gd,GD graphics,+PACKAGE_php5-mod-gd:libjpeg +PACKAGE_php5-mod-gd:libpng))
+$(eval $(call BuildModule,gd,GD graphics,+PACKAGE_php5-mod-gd:libjpeg +PACKAGE_php5-mod-gd:libpng +PACKAGE_php5-mod-gd:libfreetype))
 $(eval $(call BuildModule,gettext,Gettext,+PACKAGE_php5-mod-gettext:libintl-full))
 $(eval $(call BuildModule,gmp,GMP,+PACKAGE_php5-mod-gmp:libgmp))
 $(eval $(call BuildModule,hash,Hash))
