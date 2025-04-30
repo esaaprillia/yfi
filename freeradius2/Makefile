@@ -202,12 +202,6 @@ define Package/freeradius2-mod-counter/conffiles
 /etc/freeradius2/modules/counter
 endef
 
-define Package/freeradius2-mod-dbm
-  $(call Package/freeradius2/Default)
-  DEPENDS:=freeradius2 +libgdbm
-  TITLE:=Module dbm
-endef
-
 define Package/freeradius2-mod-detail
   $(call Package/freeradius2/Default)
   DEPENDS:=freeradius2
@@ -654,6 +648,7 @@ CONFIGURE_ARGS+= \
 	--with-raddbdir=/etc/freeradius2 \
 	--with-radacctdir=/var/db/radacct \
 	--with-logdir=/var/log \
+	--without-rlm_dbm \
 	--without-rlm_eap_ikev2 \
 	--without-rlm_eap_tnc \
 	--without-rlm_example \
@@ -675,15 +670,6 @@ PKG_DICTIONARIES:= \
 	rfc4372 rfc4675 rfc4679 \
 	microsoft \
 	wispr
-
-ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-dbm),)
-  CONFIGURE_ARGS+= \
-		--with-rlm_dbm \
-		--with-rlm_dbm-include-dir="$(STAGING_DIR)/usr/include" \
-		--with-rlm_dbm-lib-dir="$(STAGING_DIR)/usr/lib"
-else
-  CONFIGURE_ARGS+= --without-rlm_dbm
-endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-mod-eap-peap),)
   CONFIGURE_ARGS+= \
@@ -936,7 +922,6 @@ $(eval $(call BuildPlugin,freeradius2-mod-chap,rlm_chap,))
 $(eval $(call BuildPlugin,freeradius2-mod-checkval,rlm_checkval,))
 $(eval $(call BuildPlugin,freeradius2-mod-copy-packet,rlm_copy_packet,))
 $(eval $(call BuildPlugin,freeradius2-mod-counter,rlm_counter,))
-$(eval $(call BuildPlugin,freeradius2-mod-dbm,rlm_dbm,))
 $(eval $(call BuildPlugin,freeradius2-mod-detail,rlm_detail,))
 $(eval $(call BuildPlugin,freeradius2-mod-digest,rlm_digest,))
 $(eval $(call BuildPlugin,freeradius2-mod-dynamic-clients,rlm_dynamic_clients,))
