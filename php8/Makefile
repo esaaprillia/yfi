@@ -81,7 +81,7 @@ define Package/php8
   DEPENDS:=+libpcre2 +zlib \
            +PHP8_LIBXML:libxml2 \
            +PHP8_SYSTEMTZDATA:zoneinfo-core
-  CONFLICTS:=php8
+  CONFLICTS:=php7
 endef
 
 define Package/php8/description
