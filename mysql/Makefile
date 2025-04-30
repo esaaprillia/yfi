@@ -48,12 +48,14 @@ endef
 
 define Package/libmysqlclient
   $(call Package/libmysqlclient/Default)
+  CONFLICTS:=mariadb libmariadb
 endef
 
 define Package/libmysqlclient-r
   $(call Package/libmysqlclient/Default)
   TITLE += threadsafe
   DEPENDS+= +libpthread
+  CONFLICTS:=mariadb libmariadb
 endef
 
 ifneq ($(CONFIG_USE_UCLIBCXX),)
