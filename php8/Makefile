@@ -29,6 +29,7 @@ PHP8_MODULES= \
 	fileinfo filter ftp \
 	gettext gd gmp \
 	iconv imap intl \
+	json \
 	ldap \
 	mbstring mysqli mysqlnd \
 	opcache openssl \
@@ -80,7 +81,7 @@ define Package/php8
   DEPENDS:=+libpcre2 +zlib \
            +PHP8_LIBXML:libxml2 \
            +PHP8_SYSTEMTZDATA:zoneinfo-core
-  CONFLICTS:=php7
+  CONFLICTS:=php8
 endef
 
 define Package/php8/description
@@ -289,6 +290,12 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_php8-mod-intl),)
   TARGET_CXXFLAGS+= -std=c++0x
 else
   CONFIGURE_ARGS+= --disable-intl
+endif
+
+ifneq ($(SDK)$(CONFIG_PACKAGE_php8-mod-json),)
+  CONFIGURE_ARGS+= --enable-json=shared
+else
+  CONFIGURE_ARGS+= --disable-json
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php8-mod-ldap),)
@@ -634,6 +641,7 @@ $(eval $(call BuildModule,gmp,GMP,+PACKAGE_php8-mod-gmp:libgmp))
 $(eval $(call BuildModule,iconv,iConv,$(ICONV_DEPENDS)))
 $(eval $(call BuildModule,imap,IMAP,+PACKAGE_php8-mod-imap:libopenssl +PACKAGE_libpam:libpam +PACKAGE_php8-mod-imap:uw-imap))
 $(eval $(call BuildModule,intl,Internationalization Functions,+PACKAGE_php8-mod-intl:icu +PHP8_FULLICUDATA:icu-full-data))
+$(eval $(call BuildModule,json,JSON))
 $(eval $(call BuildModule,ldap,LDAP,+PACKAGE_php8-mod-ldap:libopenldap +PACKAGE_php8-mod-ldap:libsasl2))
 $(eval $(call BuildModule,mbstring,MBString,+PACKAGE_php8-mod-mbstring:oniguruma))
 $(eval $(call BuildModule,mysqli,MySQL Improved Extension,+PACKAGE_php8-mod-mysqli:php8-mod-mysqlnd,30))
