@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=php
-PKG_VERSION:=8.1.32
+PKG_VERSION:=8.1.31
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Michael Heimpold <mhei@heimpold.de>
@@ -16,7 +16,7 @@ PKG_CPE_ID:=cpe:/a:php:php
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.php.net/distributions/
-PKG_HASH:=skip
+PKG_HASH:=c4f244d46ba51c72f7d13d4f66ce6a9e9a8d6b669c51be35e01765ba58e7afca
 
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
@@ -29,7 +29,6 @@ PHP8_MODULES= \
 	fileinfo filter ftp \
 	gettext gd gmp \
 	iconv imap intl \
-	json \
 	ldap \
 	mbstring mysqli mysqlnd \
 	opcache openssl \
@@ -290,12 +289,6 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_php8-mod-intl),)
   TARGET_CXXFLAGS+= -std=c++0x
 else
   CONFIGURE_ARGS+= --disable-intl
-endif
-
-ifneq ($(SDK)$(CONFIG_PACKAGE_php8-mod-json),)
-  CONFIGURE_ARGS+= --enable-json=shared
-else
-  CONFIGURE_ARGS+= --disable-json
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php8-mod-ldap),)
@@ -641,7 +634,6 @@ $(eval $(call BuildModule,gmp,GMP,+PACKAGE_php8-mod-gmp:libgmp))
 $(eval $(call BuildModule,iconv,iConv,$(ICONV_DEPENDS)))
 $(eval $(call BuildModule,imap,IMAP,+PACKAGE_php8-mod-imap:libopenssl +PACKAGE_libpam:libpam +PACKAGE_php8-mod-imap:uw-imap))
 $(eval $(call BuildModule,intl,Internationalization Functions,+PACKAGE_php8-mod-intl:icu +PHP8_FULLICUDATA:icu-full-data))
-$(eval $(call BuildModule,json,JSON))
 $(eval $(call BuildModule,ldap,LDAP,+PACKAGE_php8-mod-ldap:libopenldap +PACKAGE_php8-mod-ldap:libsasl2))
 $(eval $(call BuildModule,mbstring,MBString,+PACKAGE_php8-mod-mbstring:oniguruma))
 $(eval $(call BuildModule,mysqli,MySQL Improved Extension,+PACKAGE_php8-mod-mysqli:php8-mod-mysqlnd,30))
