@@ -1,141 +1,58 @@
 #
+# Copyright (C) 2018 Othmar Truniger
+#
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=imagemagick
-PKG_VERSION:=7.0.9
-PKG_REVISION:=5
-PKG_RELEASE:=2
-PKG_MAINTAINER:=Val Kulkov <val.kulkov@gmail.com>
+PKG_NAME:=libfmt
+PKG_VERSION:=11.1.3
+PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REVISION).tar.gz
-PKG_SOURCE_URL:=http://github.com/ImageMagick/ImageMagick/archive/$(PKG_VERSION)-$(PKG_REVISION)
-PKG_HASH:=d15abd31e7e18f7edec47df156773a23e5100386e55c6ce50f5353e9572d3413
-PKG_BUILD_DIR:=$(BUILD_DIR)/ImageMagick-$(PKG_VERSION)-$(PKG_REVISION)
+PKG_SOURCE_NAME:=fmt
+PKG_SOURCE:=$(PKG_SOURCE_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/fmtlib/$(PKG_SOURCE_NAME)/tar.gz/$(PKG_VERSION)?
+PKG_HASH:=67cd23ea86ccc359693e2ce1ba8d1bab533c02d743c09b15f3131102d0c2fc1c
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_SOURCE_NAME)-$(PKG_VERSION)
 
-PKG_LICENSE:=Apache-2.0
-PKG_LICENSE_FILES:=LICENSE
-PKG_CPE_ID:=cpe:/a:imagemagick:imagemagick
+PKG_MAINTAINER:=Othmar Truniger <github@truniger.ch>
+PKG_LICENSE:=MIT
+PKG_LICENSE_FILES:=LICENSE.rst
+PKG_CPE_ID:=cpe:/a:fmt:fmt
 
-PKG_USE_MIPS16:=0
-PKG_INSTALL:=1
+CMAKE_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/cmake.mk
 
-define Package/imagemagick/Default
-  SECTION:=multimedia
-  CATEGORY:=Multimedia
-  TITLE:=Image manipulation tools
-  URL:=https://www.imagemagick.org/
+CMAKE_OPTIONS += -DBUILD_SHARED_LIBS=ON
+CMAKE_OPTIONS += -DFMT_DOC=OFF
+CMAKE_OPTIONS += -DFMT_TEST=OFF
+
+define Package/libfmt
+  SECTION:=libs
+  CATEGORY:=Libraries
+  TITLE:=Small, safe and fast formatting library
+  URL:=https://github.com/fmtlib/fmt
+  DEPENDS:=+libstdcpp
 endef
 
-define Package/imagemagick
-  $(call Package/imagemagick/Default)
-  DEPENDS:=+libltdl +libpthread +zlib +libfreetype +libpng +libjpeg +libtiff
+define Package/libfmt/description
+  fmt is an open-source formatting library for C++.
+  It can be used as a safe alternative to printf or as a fast alternative to IOStreams.
 endef
-
-define Package/imagemagick/description
-ImageMagick is a free and open-source software suite for displaying,
-converting, and editing raster image and vector image files.
-NOTE: this package may not be suitable for many embedded devices because
-of its large size. Consider using extroot or alternatively consider
-graphicsmagick which is smaller but similar in functionality.
-endef
-
-define Package/imagemagick/conffiles
-/etc/ImageMagick-7/colors.xml
-/etc/ImageMagick-7/delegates.xml
-/etc/ImageMagick-7/log.xml
-/etc/ImageMagick-7/mime.xml
-/etc/ImageMagick-7/policy.xml
-/etc/ImageMagick-7/quantization-table.xml
-/etc/ImageMagick-7/thresholds.xml
-/etc/ImageMagick-7/type-apple.xml
-/etc/ImageMagick-7/type-dejavu.xml
-/etc/ImageMagick-7/type-ghostscript.xml
-/etc/ImageMagick-7/type-urw-base35.xml
-/etc/ImageMagick-7/type-windows.xml
-/etc/ImageMagick-7/type.xml
-endef
-
-CONFIGURE_ARGS += \
-	--enable-shared \
-	--disable-static \
-	--disable-docs \
-	--enable-dependency-tracking \
-	--with-modules \
-	--with-threads \
-	--with-ltdl \
-	--with-zlib \
-	--disable-hdri \
-	--with-quantum-depth=8 \
-	--disable-deprecated \
-	--disable-cipher \
-	--without-bzlib \
-	--without-autotrace \
-	--without-djvu \
-	--without-dps \
-	--without-fftw \
-	--without-flif \
-	--without-fpx \
-	--without-fontconfig \
-	--without-gslib \
-	--without-gvc \
-	--without-heic \
-	--without-jbig \
-	--without-lcms \
-	--without-lqr \
-	--without-lzma \
-	--without-magick-plus-plus \
-	--without-openexr \
-	--without-openjp2 \
-	--without-raqm \
-	--without-raw \
-	--without-webp \
-	--without-x \
-	--without-zstd \
-	--without-gslib \
-	--without-gvc \
-	--without-pango \
-	--without-perl \
-	--without-rsvg \
-	--without-wmf \
-	--without-xml \
-	--with-freetype \
-	--with-jpeg \
-	--with-png \
-	--with-tiff
-
-TARGET_CFLAGS += $(if $(CONFIG_GCC_USE_VERSION_10),,-flto)
 
 define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/include
-	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/include/* \
-		$(1)/usr/include/
+	$(call Build/InstallDev/cmake,$(1))
+	$(SED) 's,/usr/include,$$$${prefix}/include,g' $(1)/usr/lib/pkgconfig/fmt.pc
+	$(SED) 's,/usr/lib,$$$${exec_prefix}/lib,g' $(1)/usr/lib/pkgconfig/fmt.pc
+endef
 
+define Package/libfmt/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/lib/*.so* \
-		$(1)/usr/lib/
-
-	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
-	$(INSTALL_DATA) \
-		$(PKG_INSTALL_DIR)/usr/lib/pkgconfig/* \
-		$(1)/usr/lib/pkgconfig/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libfmt.so* $(1)/usr/lib/
 endef
 
-IMlibdir:=usr/lib/ImageMagick-$(PKG_VERSION)
-define Package/imagemagick/install
-	$(INSTALL_DIR) $(1)/etc $(1)/usr/bin $(1)/$(IMlibdir)
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so.* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
-	$(RM) $(1)/usr/bin/*-config
-	$(CP) $(PKG_INSTALL_DIR)/etc/ImageMagick-* $(1)/etc/
-	$(CP) $(PKG_INSTALL_DIR)/$(IMlibdir)/* $(1)/$(IMlibdir)/
-endef
-
-$(eval $(call BuildPackage,imagemagick))
+$(eval $(call BuildPackage,libfmt))
