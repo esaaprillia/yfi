@@ -13,10 +13,11 @@ PKG_MAINTAINER:=Volker Christian <me@vchrist.at>
 PKG_LICENSE:=ISC
 PKG_LICENSE_FILES:=LICENSE
 
+PKG_BUILD_DEPENDS:=meson/host
 PKG_BUILD_FLAGS:=no-mips16
 
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/meson.mk
+include ../../devel/meson/meson.mk
 
 define Package/libucontext
   SECTION:=libs
