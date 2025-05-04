@@ -1,0 +1,88 @@
+From e7ad18063d75c4f7ae237a12068dfdb580bede6c Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 07:53:12 +0800
+Subject: [PATCH] Update blobmsg_json.c
+
+---
+ blobmsg_json.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/blobmsg_json.c b/blobmsg_json.c
+index ec8b482..f9924fc 100644
+--- a/blobmsg_json.c
++++ b/blobmsg_json.c
+@@ -18,7 +18,7 @@
+ #include "blobmsg_json.h"
+ 
+ #ifdef JSONC
+-	#include <json.h>
++	#include <json-c/json.h>
+ #else
+ 	#include <json/json.h>
+ #endif
+From 74f3c9c657a3f18bfc57376b45b416053e7ddcb4 Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 08:13:05 +0800
+Subject: [PATCH] Update json_script-example.c
+
+---
+ examples/json_script-example.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/examples/json_script-example.c b/examples/json_script-example.c
+index 6d93059..ab9742a 100644
+--- a/examples/json_script-example.c
++++ b/examples/json_script-example.c
+@@ -1,7 +1,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+-#include <json.h>
++#include <json-c/json.h>
+ #include "blobmsg.h"
+ #include "blobmsg_json.h"
+ #include "json_script.h"
+From 9e0f8995baec4143cdb953d9976e62dc805f3d41 Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 08:16:59 +0800
+Subject: [PATCH] Update jshn.c
+
+---
+ jshn.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/jshn.c b/jshn.c
+index 1b685e5..039d9c7 100644
+--- a/jshn.c
++++ b/jshn.c
+@@ -14,7 +14,7 @@
+  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  */
+ #ifdef JSONC
+-        #include <json.h>
++        #include <json-c/json.h>
+ #else
+         #include <json/json.h>
+ #endif
+From 5ff5ab97530f03ca7fc08764d7f808e906f831ef Mon Sep 17 00:00:00 2001
+From: esaaprillia <esaapriliasalsabila@gmail.com>
+Date: Sun, 13 Apr 2025 08:22:10 +0800
+Subject: [PATCH] Update json_script-example.c
+
+---
+ tests/json_script-example.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/test-json-script.c b/tests/test-json-script.c
+index 6d93059..ab9742a 100644
+--- a/tests/test-json-script.c
++++ b/tests/test-json-script.c
+@@ -1,7 +1,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+-#include <json.h>
++#include <json-c/json.h>
+ #include "blobmsg.h"
+ #include "blobmsg_json.h"
+ #include "json_script.h"
