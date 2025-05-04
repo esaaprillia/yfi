@@ -219,7 +219,7 @@ define Package/base-files/install
 	$(if $(LIB_SUFFIX),-$(LN) lib $(1)/lib$(LIB_SUFFIX))
 	$(if $(LIB_SUFFIX),-$(LN) lib $(1)/usr/lib$(LIB_SUFFIX))
 
-	mkdir -p $(1)/var
+	mkdir -p $(1)/var/www/html
 	$(LN) /tmp/run $(1)/var/run
 
 	$(LN) /tmp/resolv.conf /tmp/TZ /tmp/localtime $(1)/etc/
