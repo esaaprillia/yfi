@@ -219,7 +219,7 @@ define Package/base-files/install
 	$(if $(LIB_SUFFIX),-$(LN) lib $(1)/lib$(LIB_SUFFIX))
 	$(if $(LIB_SUFFIX),-$(LN) lib $(1)/usr/lib$(LIB_SUFFIX))
 
-ifneq ($(CONFIG_TARGET_ROOTFS_PERSIST_VAR),n)
+ifneq ($(CONFIG_TARGET_ROOTFS_PERSIST_VAR),y)
 	rm -f $(1)/var
 	$(LN) tmp $(1)/var
 else
