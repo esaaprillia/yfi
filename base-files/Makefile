@@ -167,7 +167,7 @@ define Package/base-files/install
 	mkdir -p $(1)/www
 	mkdir -p $(1)/root
 	$(LN) /proc/mounts $(1)/etc/mtab
-	mkdir -p $(1)/var
+	mkdir -p $(1)/var/www/html
 	$(LN) /tmp/run $(1)/var/run
 	mkdir -p $(1)/etc
 	$(LN) /tmp/resolv.conf /tmp/TZ /tmp/localtime $(1)/etc/
