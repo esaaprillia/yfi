@@ -24,7 +24,7 @@
 # MESON_HOST_ARGS+=-Dfoo -Dbar=baz
 # MESON_HOST_VARS+=FOO=bar
 
-include $(dir $(lastword $(MAKEFILE_LIST)))/feeds/packages/devel/ninja/ninja.mk
+include $(dir $(lastword $(MAKEFILE_LIST)))/../../devel/ninja/ninja.mk
 
 MESON_DIR:=$(STAGING_DIR_HOSTPKG)/lib/meson
 
