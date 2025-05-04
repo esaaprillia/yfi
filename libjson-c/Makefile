@@ -20,7 +20,7 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=COPYING
 PKG_CPE_ID:=cpe:/a:json-c:json-c
 
-HOST_BUILD_PREFIX:=$(STAGING_DIR_HOST)
+#HOST_BUILD_PREFIX:=$(STAGING_DIR_HOST)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
