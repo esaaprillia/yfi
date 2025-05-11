@@ -1,141 +1,142 @@
 #
+# Copyright (C) 2006-2015 OpenWrt.org
+#
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=imagemagick
-PKG_VERSION:=7.0.9
-PKG_REVISION:=5
-PKG_RELEASE:=2
-PKG_MAINTAINER:=Val Kulkov <val.kulkov@gmail.com>
+PKG_NAME:=mysql
+PKG_VERSION:=5.6.51
+PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REVISION).tar.gz
-PKG_SOURCE_URL:=http://github.com/ImageMagick/ImageMagick/archive/$(PKG_VERSION)-$(PKG_REVISION)
-PKG_HASH:=d15abd31e7e18f7edec47df156773a23e5100386e55c6ce50f5353e9572d3413
-PKG_BUILD_DIR:=$(BUILD_DIR)/ImageMagick-$(PKG_VERSION)-$(PKG_REVISION)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://downloads.mysql.com/archives/get/p/23/file/
 
-PKG_LICENSE:=Apache-2.0
-PKG_LICENSE_FILES:=LICENSE
-PKG_CPE_ID:=cpe:/a:imagemagick:imagemagick
+PKG_MD5SUM:=skip
+PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
+PKG_LICENSE:=GPL-2.0
 
+PKG_BUILD_DEPENDS:=libncurses libreadline
+PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
-PKG_INSTALL:=1
+
+CMAKE_BINARY_SUBDIR := build
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
+include $(INCLUDE_DIR)/cmake.mk
 
-define Package/imagemagick/Default
-  SECTION:=multimedia
-  CATEGORY:=Multimedia
-  TITLE:=Image manipulation tools
-  URL:=https://www.imagemagick.org/
+define Package/libmysqlclient/Default
+  SECTION:=libs
+  CATEGORY:=Libraries
+  DEPENDS:=+zlib
+  TITLE:=MySQL client library
+  URL:=http://dev.mysql.com/
 endef
 
-define Package/imagemagick
-  $(call Package/imagemagick/Default)
-  DEPENDS:=+libltdl +libpthread +zlib +libfreetype +libpng +libjpeg +libtiff
+define Package/mysql-server
+  SECTION:=utils
+  CATEGORY:=Utilities
+  DEPENDS:=+libmysqlclient +libpthread +libncursesw +libreadline
+  TITLE:=MySQL Server
+  URL:=http://dev.mysql.com/
+  SUBMENU:=database
 endef
 
-define Package/imagemagick/description
-ImageMagick is a free and open-source software suite for displaying,
-converting, and editing raster image and vector image files.
-NOTE: this package may not be suitable for many embedded devices because
-of its large size. Consider using extroot or alternatively consider
-graphicsmagick which is smaller but similar in functionality.
+define Package/libmysqlclient
+  $(call Package/libmysqlclient/Default)
 endef
 
-define Package/imagemagick/conffiles
-/etc/ImageMagick-7/colors.xml
-/etc/ImageMagick-7/delegates.xml
-/etc/ImageMagick-7/log.xml
-/etc/ImageMagick-7/mime.xml
-/etc/ImageMagick-7/policy.xml
-/etc/ImageMagick-7/quantization-table.xml
-/etc/ImageMagick-7/thresholds.xml
-/etc/ImageMagick-7/type-apple.xml
-/etc/ImageMagick-7/type-dejavu.xml
-/etc/ImageMagick-7/type-ghostscript.xml
-/etc/ImageMagick-7/type-urw-base35.xml
-/etc/ImageMagick-7/type-windows.xml
-/etc/ImageMagick-7/type.xml
+define Package/libmysqlclient-r
+  $(call Package/libmysqlclient/Default)
+  TITLE += threadsafe
+  DEPENDS+= +libpthread
 endef
 
-CONFIGURE_ARGS += \
-	--enable-shared \
-	--disable-static \
-	--disable-docs \
-	--enable-dependency-tracking \
-	--with-modules \
-	--with-threads \
-	--with-ltdl \
-	--with-zlib \
-	--disable-hdri \
-	--with-quantum-depth=8 \
-	--disable-deprecated \
-	--disable-cipher \
-	--without-bzlib \
-	--without-autotrace \
-	--without-djvu \
-	--without-dps \
-	--without-fftw \
-	--without-flif \
-	--without-fpx \
-	--without-fontconfig \
-	--without-gslib \
-	--without-gvc \
-	--without-heic \
-	--without-jbig \
-	--without-lcms \
-	--without-lqr \
-	--without-lzma \
-	--without-magick-plus-plus \
-	--without-openexr \
-	--without-openjp2 \
-	--without-raqm \
-	--without-raw \
-	--without-webp \
-	--without-x \
-	--without-zstd \
-	--without-gslib \
-	--without-gvc \
-	--without-pango \
-	--without-perl \
-	--without-rsvg \
-	--without-wmf \
-	--without-xml \
-	--with-freetype \
-	--with-jpeg \
-	--with-png \
-	--with-tiff
+TARGET_CFLAGS += $(FPIC)
 
-TARGET_CFLAGS += $(if $(CONFIG_GCC_USE_VERSION_10),,-flto)
+CMAKE_OPTIONS += \
+	-DBUILD_CONFIG=mysql_release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DSYSCONFDIR=/etc/mysql \
+    -DMYSQL_DATADIR=/srv/mysql \
+    -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock \
+    -DDEFAULT_CHARSET=utf8 \
+    -DDEFAULT_COLLATION=utf8_general_ci \
+    -DENABLED_LOCAL_INFILE=ON \
+    -DINSTALL_INFODIR=share/mysql/docs \
+    -DINSTALL_MANDIR=share/man \
+    -DINSTALL_PLUGINDIR=lib/mysql/plugin \
+    -DINSTALL_SCRIPTDIR=bin \
+    -DINSTALL_INCLUDEDIR=include/mysql \
+    -DINSTALL_DOCREADMEDIR=share/mysql \
+    -DINSTALL_SUPPORTFILESDIR=share/mysql \
+    -DINSTALL_MYSQLSHAREDIR=share/mysql \
+    -DINSTALL_DOCDIR=share/mysql/docs \
+    -DINSTALL_SHAREDIR=share/mysql \
+    -DWITH_ZLIB=system \
+    -DWITH_SSL=system \
+    -DWITH_SYSTEMD=OFF \
+    -DWITH_LIBWRAP=OFF \
+    -DWITH_JEMALLOC=OFF \
+    -DWITH_EXTRA_CHARSETS=complex \
+    -DWITH_EMBEDDED_SERVER=ON \
+    -DWITH_ARCHIVE_STORAGE_ENGINE=ON \
+    -DWITH_BLACKHOLE_STORAGE_ENGINE=ON \
+    -DWITH_INNOBASE_STORAGE_ENGINE=ON \
+    -DWITH_PARTITION_STORAGE_ENGINE=ON \
+    -DWITHOUT_EXAMPLE_STORAGE_ENGINE=ON \
+    -DWITHOUT_FEDERATED_STORAGE_ENGINE=ON \
+    -DCMAKE_CXX_FLAGS="-std=gnu++98"
 
 define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/include
-	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/include/* \
-		$(1)/usr/include/
+	$(INSTALL_DIR) $(2)/bin $(1)/usr/bin $(1)/usr/include $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/mysql_config $(1)/usr/bin/
+	ln -sf $(STAGING_DIR)/usr/bin/mysql_config $(2)/bin/
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/mysql $(1)/usr/include/
+	# NOTE: needed for MySQL-Python
+	$(CP) $(PKG_BUILD_DIR)/include/mysqld_error.h $(1)/usr/include/mysql/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/mysql $(1)/usr/lib/
+	rm -f $(1)/usr/lib/mysql/libmysqlclient.la
+endef
 
+define Package/libmysqlclient/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/lib/*.so* \
-		$(1)/usr/lib/
-
-	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
-	$(INSTALL_DATA) \
-		$(PKG_INSTALL_DIR)/usr/lib/pkgconfig/* \
-		$(1)/usr/lib/pkgconfig/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/mysql/libmysqlclient.so.* $(1)/usr/lib/
 endef
 
-IMlibdir:=usr/lib/ImageMagick-$(PKG_VERSION)
-define Package/imagemagick/install
-	$(INSTALL_DIR) $(1)/etc $(1)/usr/bin $(1)/$(IMlibdir)
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so.* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
-	$(RM) $(1)/usr/bin/*-config
-	$(CP) $(PKG_INSTALL_DIR)/etc/ImageMagick-* $(1)/etc/
-	$(CP) $(PKG_INSTALL_DIR)/$(IMlibdir)/* $(1)/$(IMlibdir)/
+define Package/libmysqlclient-r/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/mysql/libmysqlclient_r.so.* $(1)/usr/lib/
 endef
 
-$(eval $(call BuildPackage,imagemagick))
+define Package/mysql-server/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/mysql $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/mysqld $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/myisamchk $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/mysqladmin $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/mysqldump $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/mysql_install_db $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/my_print_defaults $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/etc/init.d/
+	$(INSTALL_BIN) files/mysqld.init $(1)/etc/init.d/mysqld
+	$(INSTALL_CONF) conf/my.cnf $(1)/etc/
+	$(INSTALL_DIR) $(1)/usr/share/mysql
+	$(INSTALL_DIR) $(1)/usr/share/mysql/english
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/share/mysql/english/errmsg.sys $(1)/usr/share/mysql/english
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/share/mysql/fill_help_tables.sql $(1)/usr/share/mysql/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/share/mysql/mysql_system_tables.sql $(1)/usr/share/mysql/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/share/mysql/mysql_system_tables_data.sql $(1)/usr/share/mysql/
+endef
+
+define Package/mysql-server/conffiles
+/etc/my.cnf
+endef
+
+$(eval $(call HostBuild))
+$(eval $(call BuildPackage,mysql-server))
+$(eval $(call BuildPackage,libmysqlclient))
+$(eval $(call BuildPackage,libmysqlclient-r))
