@@ -58,7 +58,8 @@ endef
 TARGET_CFLAGS += $(FPIC)
 
 CMAKE_HOST_OPTIONS += \
-	-DWITH_SSL=system
+	-DWITH_SSL="$(STAGING_DIR_HOST)" \
+	-DOPENSSL_INCLUDE_DIR="$(STAGING_DIR_HOST)/include/openssl"
 
 CMAKE_OPTIONS += \
 	-DBUILD_CONFIG=mysql_release \
