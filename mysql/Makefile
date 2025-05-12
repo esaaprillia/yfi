@@ -58,7 +58,7 @@ endef
 TARGET_CFLAGS += $(FPIC)
 
 CMAKE_HOST_OPTIONS += \
-	-DWITH_SSL=OFF
+	-DWITH_SSL=system
 
 CMAKE_OPTIONS += \
 	-DBUILD_CONFIG=mysql_release \
