@@ -298,7 +298,7 @@ else
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php7-mod-mysqli),)
-  CONFIGURE_ARGS+= --with-mysqli=shared
+  CONFIGURE_ARGS+= --with-mysqli=shared,"$(STAGING_DIR)/usr/bin/mysql_config"
 else
   CONFIGURE_ARGS+= --without-mysqli
 endif
@@ -333,7 +333,7 @@ endif
 ifneq ($(SDK)$(CONFIG_PACKAGE_php7-mod-pdo),)
   CONFIGURE_ARGS+= --enable-pdo=shared
   ifneq ($(SDK)$(CONFIG_PACKAGE_php7-mod-pdo-mysql),)
-    CONFIGURE_ARGS+= --with-pdo-mysql=shared
+    CONFIGURE_ARGS+= --with-pdo-mysql=shared,"$(STAGING_DIR)/usr"
   else
     CONFIGURE_ARGS+= --without-pdo-mysql
   endif
@@ -635,13 +635,13 @@ $(eval $(call BuildModule,intl,Internationalization Functions,+PACKAGE_php7-mod-
 $(eval $(call BuildModule,json,JSON))
 $(eval $(call BuildModule,ldap,LDAP,+PACKAGE_php7-mod-ldap:libopenldap +PACKAGE_php7-mod-ldap:libsasl2))
 $(eval $(call BuildModule,mbstring,MBString,+PACKAGE_php7-mod-mbstring:oniguruma))
-$(eval $(call BuildModule,mysqli,MySQL Improved Extension,+PACKAGE_php7-mod-mysqli:php7-mod-mysqlnd,30))
+$(eval $(call BuildModule,mysqli,MySQL Improved Extension,+PACKAGE_php7-mod-mysqli:libmysqlclient,30))
 $(eval $(call BuildModule,mysqlnd,MySQL Native Driver,+PACKAGE_php7-mod-openssl:php7-mod-openssl))
 $(eval $(call BuildModule,opcache,OPcache,,,zend))
 $(eval $(call BuildModule,openssl,OpenSSL,+PACKAGE_php7-mod-openssl:libopenssl,15))
 $(eval $(call BuildModule,pcntl,PCNTL))
 $(eval $(call BuildModule,pdo,PHP Data Objects))
-$(eval $(call BuildModule,pdo-mysql,PDO driver for MySQL,+php7-mod-pdo +PACKAGE_php7-mod-pdo-mysql:php7-mod-mysqlnd))
+$(eval $(call BuildModule,pdo-mysql,PDO driver for MySQL,+php7-mod-pdo +PACKAGE_php7-mod-pdo-mysql:libmysqlclient))
 $(eval $(call BuildModule,pdo-pgsql,PDO driver for PostgreSQL,+php7-mod-pdo +PACKAGE_php7-mod-pdo-pgsql:libpq))
 $(eval $(call BuildModule,pdo-sqlite,PDO driver for SQLite 3.x,+php7-mod-pdo +PACKAGE_php7-mod-pdo-sqlite:libsqlite3 +PACKAGE_php7-mod-pdo-sqlite:librt))
 $(eval $(call BuildModule,pgsql,PostgreSQL,+PACKAGE_php7-mod-pgsql:libpq))
